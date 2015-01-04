@@ -4,26 +4,26 @@ import java.util.List;
 
 public class Table {
 
-	private String name;
+    private String name;
 
-	private List<Attribut> attributes;
+    private List<Attribut> attributes;
 
-	private Attribut attribut;
+    private Attribut attribut;
 
-	public Table(String name) {
+    public Table(String name) {
 
-	}
+    }
 
-	public String getName() {
-		return null;
-	}
+    public String getName() {
+        return null;
+    }
 
-	public List<Attribut> getAttributes() {
-		return null;
-	}
+    public List<Attribut> getAttributes() {
+        return null;
+    }
 
-	public void addAttribute(Attribut attribute) {
+    public void addAttribute(Attribut attribute) {
 
-	}
+    }
 
 }

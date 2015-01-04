@@ -1,16 +1,16 @@
 package at.ac.tgm.hit.insy.a05.input.output;
 
+import java.io.File;
 import at.ac.tgm.hit.insy.a05.structur.Database;
-import at.ac.tgm.hit.insy.a05.input.File;
 
 public class ExportRM implements Exportable {
 
 
-	/**
-	 * @see at.ac.tgm.hit.insy.a05.input.output.Exportable#export(at.ac.tgm.hit.insy.a05.structur.Database, at.ac.tgm.hit.insy.a05.input.File)
-	 */
-	public boolean export(Database database, File file) {
-		return false;
-	}
+    /**
+     * @see at.ac.tgm.hit.insy.a05.input.output.Exportable#export(at.ac.tgm.hit.insy.a05.structur.Database, java.io.File)
+     */
+    public boolean export(Database database, File file) {
+        return false;
+    }
 
 }

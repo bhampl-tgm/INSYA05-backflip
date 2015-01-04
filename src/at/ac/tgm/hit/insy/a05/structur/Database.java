@@ -4,26 +4,26 @@ import java.util.List;
 
 public class Database {
 
-	private String name;
+    private String name;
 
-	private List<Table> tables;
+    private List<Table> tables;
 
-	private Table table;
+    private Table table;
 
-	public Database(String name) {
+    public Database(String name) {
 
-	}
+    }
 
-	public String getName() {
-		return null;
-	}
+    public String getName() {
+        return null;
+    }
 
-	public List<Table> getTables() {
-		return null;
-	}
+    public List<Table> getTables() {
+        return null;
+    }
 
-	public void addTable(Table table) {
+    public void addTable(Table table) {
 
-	}
+    }
 
 }
