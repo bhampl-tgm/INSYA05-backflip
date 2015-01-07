@@ -11,19 +11,19 @@ public class Database {
     private Table table;
 
     public Database(String name) {
-
+        this.name = name;
     }
 
     public String getName() {
-        return null;
+        return this.name;
     }
 
     public List<Table> getTables() {
-        return null;
+        return this.tables;
     }
 
     public void addTable(Table table) {
-
+        this.tables.add(table);
     }
 
 }

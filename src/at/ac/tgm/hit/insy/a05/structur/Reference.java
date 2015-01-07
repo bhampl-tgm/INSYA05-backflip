@@ -6,20 +6,19 @@ public class Reference {
 
     private Attribut refAttribute;
 
-    private Attribut attribut;
-
     private Table table;
 
     public Reference(Table refTable, Attribut refAttribute) {
-
+        this.refTable = refTable;
+        this.refAttribute = refAttribute;
     }
 
     public Table getRefTable() {
-        return null;
+        return this.refTable;
     }
 
     public Attribut getRefAttribute() {
-        return null;
+        return this.refAttribute;
     }
 
 }

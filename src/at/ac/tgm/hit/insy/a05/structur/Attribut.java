@@ -9,15 +9,16 @@ public class Attribut {
     private Reference reference;
 
     public Attribut(String name, boolean pk) {
-
+        this.name = name;
+        this.primaryKey = pk;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
     public boolean isPrimaryKey() {
-        return false;
+        return primaryKey;
     }
 
 }
