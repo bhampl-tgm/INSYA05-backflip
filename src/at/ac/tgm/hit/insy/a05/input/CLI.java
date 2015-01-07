@@ -25,17 +25,11 @@ public class CLI {
     @Option(name = "-d", usage = "specify database to use", required = true)
     private String databaseName;
 
-    @Option(name = "-o", usage = "specify output file with extension", required = true)
-    private File file;
-
-    @Option(name = "-l", usage = "specify doc installation location")
-    private String dotlocation;
+    @Option(name = "-o", usage = "specify output file")
+    private File file = new File(".");
 
     @Option(name = "-f", usage = "specify output formant [EER | RM]", required = true)
     private String format;
-
-    @Option(name = "-t", usage = "specify output type")
-    private String type;
 
     private String password;
 
@@ -44,7 +38,7 @@ public class CLI {
      *
      * @param args the command line arguments
      */
-    public void parsCLI(String[] args) {
+    public void parseArg(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
@@ -64,39 +58,57 @@ public class CLI {
         this.password = new String(System.console().readPassword("Enter password:"));
     }
 
+    /**
+     * Getter for property 'hostname'.
+     *
+     * @return Value for property 'hostname'.
+     */
     public String getHostname() {
         return this.hostname;
     }
 
+    /**
+     * Getter for property 'user'.
+     *
+     * @return Value for property 'user'.
+     */
     public String getUser() {
         return this.user;
     }
 
+    /**
+     * Getter for property 'databaseName'.
+     *
+     * @return Value for property 'databaseName'.
+     */
     public String getDatabaseName() {
         return this.databaseName;
     }
 
+    /**
+     * Getter for property 'file'.
+     *
+     * @return Value for property 'file'.
+     */
     public File getFile() {
         return this.file;
     }
 
-    public String getPasswrd() {
+    /**
+     * Getter for property 'password'.
+     *
+     * @return Value for property 'password'.
+     */
+    public String getPassword() {
         return this.password;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getDotlocation() {
-        return dotlocation;
-    }
-
+    /**
+     * Getter for property 'format'.
+     *
+     * @return Value for property 'format'.
+     */
     public String getFormat() {
         return format;
-    }
-
-    public String getType() {
-        return type;
     }
 }
