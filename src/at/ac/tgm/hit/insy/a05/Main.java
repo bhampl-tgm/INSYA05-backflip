@@ -1,7 +1,7 @@
 package at.ac.tgm.hit.insy.a05;
 
 import at.ac.tgm.hit.insy.a05.input.CLI;
-import at.ac.tgm.hit.insy.a05.input.output.Exportable;
+import at.ac.tgm.hit.insy.a05.output.Exportable;
 import at.ac.tgm.hit.insy.a05.input.source.ConnectionFactory;
 import at.ac.tgm.hit.insy.a05.input.source.DatabaseMapper;
 
@@ -16,7 +16,7 @@ public class Main {
     private Exportable exportable;
 
     public static void main(String[] args) {
-        Main.CLI.parsCLI(args);
+        Main.CLI.parseArgs(args);
     }
 
 }

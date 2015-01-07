@@ -5,7 +5,10 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 
 /**
@@ -39,12 +42,20 @@ public class CLI {
      * @param args the command line arguments
      */
     public void parseArgs(String[] args) {
+        // initialize a new CmdLineParser with CLI
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
+            // pars the args
             parser.parseArgument(args);
 
+            // checks if the order direction is valid
+            if (!this.format.equalsIgnoreCase("EER") && !this.format.equalsIgnoreCase("RM"));
+                //throw new CmdLineException(parser, Messages.NO_SORT_TYPE, this.format);
+
         } catch (CmdLineException e) {
+            // if something went wrong the help is printed
+
             System.err.println(e.getMessage());
             System.err.println("java -jar Backflip.jar [options...] arguments...");
             parser.printUsage(System.err);
@@ -53,9 +64,20 @@ public class CLI {
             System.exit(1);
         }
 
-        // ask Password
-
-        this.password = new String(System.console().readPassword("Enter password:"));
+        // ask Password with Eclipse/IntelliJ workaround
+        if (System.console() == null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    System.in));
+            System.out.print("Enter password:");
+            try {
+                this.password = reader.readLine();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+        } else {
+            this.password = new String(System.console().readPassword("Enter password:"));
+        }
     }
 
     /**
