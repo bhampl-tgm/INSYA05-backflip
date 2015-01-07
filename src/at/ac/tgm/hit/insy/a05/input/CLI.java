@@ -38,7 +38,7 @@ public class CLI {
      *
      * @param args the command line arguments
      */
-    public void parseArg(String[] args) {
+    public void parseArgs(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
