@@ -64,3 +64,12 @@ crashlytics-build.properties
 
 # Astha lock File
 *.lock
+
+### Gradle template
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+
