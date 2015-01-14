@@ -8,22 +8,20 @@ public class Table {
 
     private List<Attribut> attributes;
 
-    private Attribut attribut;
-
     public Table(String name) {
-
+        this.name = name;
     }
 
     public String getName() {
-        return null;
+        return this.name;
     }
 
     public List<Attribut> getAttributes() {
-        return null;
+        return this.attributes;
     }
 
     public void addAttribute(Attribut attribute) {
-
+        this.attributes.add(attribute);
     }
 
 }

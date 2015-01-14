@@ -21,4 +21,8 @@ public class Attribut {
         return primaryKey;
     }
 
+    public Reference getReference() {
+        return this.reference;
+    }
+
 }
