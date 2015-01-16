@@ -14,6 +14,13 @@ public class Database {
         this.tables = new ArrayList<Table>();
     }
 
+    public Table getTable(String tableName) {
+        for (Table table : this.tables) {
+            if (table.getName().equals(tableName)) return table;
+        }
+        return null;
+    }
+
     public String getName() {
         return this.name;
     }

@@ -33,6 +33,20 @@ public class Table {
         this.primaryKeys.add(primaryKey);
     }
 
+    public Attribut getAttribute(String attributName) {
+        for (Attribut attribut : this.attributes) {
+            if (attribut.getName().equals(attributName)) return attribut;
+        }
+        return null;
+    }
+
+    public Attribut getPrimaryKey(String primaryKeyName) {
+        for (Attribut primaryKey : this.primaryKeys) {
+            if (primaryKey.getName().equals(primaryKeyName)) return primaryKey;
+        }
+        return null;
+    }
+
     public void addAttribute(Attribut attribute) {
         this.attributes.add(attribute);
     }

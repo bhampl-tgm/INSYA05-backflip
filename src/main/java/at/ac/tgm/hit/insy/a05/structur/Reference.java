@@ -6,8 +6,6 @@ public class Reference {
 
     private Attribut refAttribute;
 
-    private Table table;
-
     public Reference(Table refTable, Attribut refAttribute) {
         this.refTable = refTable;
         this.refAttribute = refAttribute;
