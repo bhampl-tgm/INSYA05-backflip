@@ -20,8 +20,6 @@ public class DatabaseMapper {
 
     private Connection connection;
 
-    private Database database;
-
     public DatabaseMapper(Connection connection) {
         this.connection = connection;
     }
@@ -33,9 +31,12 @@ public class DatabaseMapper {
      * @throws SQLException
      */
     public Database executeMapping() throws SQLException {
-        this.database = new Database(this.connection.getCatalog());
+        //Erstellen eines neuen Datenbankobjekts
+        Database database = new Database(this.connection.getCatalog());
+        //Erhalten aller Metadaten aus der Connection
         DatabaseMetaData result = this.connection.getMetaData();
 
+        //Erhalten aller Tabellen
         ResultSet tables = result.getTables(null, null, "%", null);
 
         Table table = null;
@@ -45,43 +46,66 @@ public class DatabaseMapper {
         Attribute attribute = null;
         Attribute pk = null;
 
+        //Erstellen der Tabellen und Attribute ohne beruecksichtigung von foreignKeys
+
         while(tables.next()) {
+            //Erstellen einer neuen Tabelle
             table = new Table(tables.getString("TABLE_NAME"));
-            this.database.addTable(table);
+            database.addTable(table);
+            //Erhalten aller Attribute und PrimaryKeys der Tabelle
             columns = result.getColumns(null, null, table.getName(), null);
             pks = result.getPrimaryKeys(null, null, table.getName());
-            foreign = result.getImportedKeys(null, null, table.getName());
+            //Hinzufuegen der PrimaryKeys
             while(pks.next()) {
                 pk = new Attribute(pks.getString("COLUMN_NAME"));
                 table.addPrimaryKey(pk);
             }
+            //Hinzufuegen der Attribute
             while(columns.next()) {
                 attribute = new Attribute(columns.getString("COLUMN_NAME"));
+                //Wird nur hinzugefuegt wenn das Attribut nicht schon in den PrimaryKeys drinnen ist
                 if (!table.getPrimaryKeys().contains(attribute))
                     table.addAttribute(attribute);
             }
         }
-        tables = result.getTables(null, null, "%", null);
 
+        tables = result.getTables(null, null, "%", null);
         Attribute foreignAttribute = null;
         Table foreignTable = null;
         Reference ref = null;
 
+        //Hinzufuegen der foreign Keys zu den Attributen
+
         while(tables.next()) {
-            table = this.database.getTable(tables.getString("TABLE_NAME"));
+            //Vorhandene Tabelle laden
+            table = database.getTable(tables.getString("TABLE_NAME"));
+            //Foreign Keys aus den Metadaten holen
             foreign = result.getImportedKeys(null, null, table.getName());
             while (foreign.next()) {
+                //Vorhandenes Attribut, welches von einer anderen Tabelle den Wert hat, laden
                 attribute = table.getAttribute(foreign.getString("FKCOLUMN_NAME"));
-                foreignTable = this.database.getTable(foreign.getString("PKTABLE_NAME"));
+                //Referenzierte Tabelle laden
+                foreignTable = database.getTable(foreign.getString("PKTABLE_NAME"));
+                //Referenziertes Attribut aus den PrimaryKeys laden
                 foreignAttribute = foreignTable.getPrimaryKey(foreign.getString("PKCOLUMN_NAME"));
+                //Wenn dies nicht in den PrimaryKeys enthalten ist, aus den Attributen holen
                 if (foreignAttribute==null)
                     foreignAttribute = foreignTable.getAttribute(foreign.getString("PKCOLUMN_NAME"));
+                //Erstellen der Referenz
                 ref = new Reference(foreignTable, foreignAttribute);
+                //Hinzufuegen der Referenz
                 attribute.setReference(ref);
             }
         }
-        return this.database;
+        return database;
     }
+
+    /**
+     * Bitte löschen vor der Abgabe!!!!!!!!!!!!!!
+     * Ist zum Visualisieren der erfassten Daten, solange die anderen Outputs noch nicht funktionsfähig sind
+     *
+     * @param args
+     */
 
     public static void main(String[] args) {
         try {
