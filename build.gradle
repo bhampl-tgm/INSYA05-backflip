@@ -1,7 +1,10 @@
 apply plugin: 'java'
+apply plugin:'application'
 
 sourceCompatibility = 1.8
-version = '1.0'
+version = '0.1'
+
+mainClassName = "at.ac.tgm.hit.insy.a05.Main"
 
 repositories {
     mavenCentral()
