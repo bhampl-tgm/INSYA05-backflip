@@ -30,18 +30,20 @@ public class DatabaseMapper {
             ResultSet columns = result.getColumns(null, null, "%", null);
             ResultSet pks = result.getPrimaryKeys(null, null, table.getName());
             while(pks.next()) {
-                Attribut pk = new Attribut(pks.getString(4), true);
+                Attribut pk = new Attribut(pks.getString(4));
+                table.addPrimaryKey(pk);
 //                System.out.println("pk: " + pk.getName());
             }
             while(columns.next()) {
-                Attribut attribut = new Attribut(columns.getString(4), false);
-//                System.out.println(attribut.getName());
-//                columns.is
-//                attribut.setReference();
-                table.addAttribute(attribut);
+                Attribut attribut = new Attribut(columns.getString(4));
+                if (!table.getPrimaryKeys().contains(attribut))
+                    table.addAttribute(attribut);
+            }
+            for (Attribut a : table.getPrimaryKeys()) {
+                System.out.println("PK: " + a.getName());
             }
             for (Attribut a : table.getAttributes()) {
-                System.out.println(a.getName() + "\t" + a.isPrimaryKey());
+                System.out.println(a.getName());
             }
         }
         return this.database;
