@@ -4,9 +4,9 @@ public class Reference {
 
     private Table refTable;
 
-    private Attribut refAttribute;
+    private Attribute refAttribute;
 
-    public Reference(Table refTable, Attribut refAttribute) {
+    public Reference(Table refTable, Attribute refAttribute) {
         this.refTable = refTable;
         this.refAttribute = refAttribute;
     }
@@ -15,7 +15,7 @@ public class Reference {
         return this.refTable;
     }
 
-    public Attribut getRefAttribute() {
+    public Attribute getRefAttribute() {
         return this.refAttribute;
     }
 

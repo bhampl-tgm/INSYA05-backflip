@@ -1,12 +1,12 @@
 package at.ac.tgm.hit.insy.a05.structur;
 
-public class Attribut {
+public class Attribute {
 
     private String name;
 
     private Reference reference;
 
-    public Attribut(String name) {
+    public Attribute(String name) {
         this.name = name;
     }
 
@@ -27,9 +27,9 @@ public class Attribut {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Attribut attribut = (Attribut) o;
+        Attribute attribute = (Attribute) o;
 
-        if (!name.equals(attribut.name)) return false;
+        if (!name.equals(attribute.name)) return false;
 
         return true;
     }

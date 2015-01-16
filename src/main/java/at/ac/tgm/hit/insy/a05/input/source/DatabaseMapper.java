@@ -1,6 +1,6 @@
 package at.ac.tgm.hit.insy.a05.input.source;
 
-import at.ac.tgm.hit.insy.a05.structur.Attribut;
+import at.ac.tgm.hit.insy.a05.structur.Attribute;
 import at.ac.tgm.hit.insy.a05.structur.Database;
 import at.ac.tgm.hit.insy.a05.structur.Reference;
 import at.ac.tgm.hit.insy.a05.structur.Table;
@@ -10,6 +10,12 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Erstellt aus der angegebenen Connection eine objektorientierte Abbildung der Datenbank
+ *
+ * @author Martin Kritzl
+ *
+ */
 public class DatabaseMapper {
 
     private Connection connection;
@@ -20,38 +26,58 @@ public class DatabaseMapper {
         this.connection = connection;
     }
 
+    /**
+     * Erstellt eine objektorientierte Abbildung der Datenbank
+     *
+     * @return Erstellte Datenbank
+     * @throws SQLException
+     */
     public Database executeMapping() throws SQLException {
         this.database = new Database(this.connection.getCatalog());
         DatabaseMetaData result = this.connection.getMetaData();
 
         ResultSet tables = result.getTables(null, null, "%", null);
+
+        Table table = null;
+        ResultSet columns = null;
+        ResultSet pks = null;
+        ResultSet foreign = null;
+        Attribute attribute = null;
+        Attribute pk = null;
+
         while(tables.next()) {
-            Table table = new Table(tables.getString("TABLE_NAME"));
+            table = new Table(tables.getString("TABLE_NAME"));
             this.database.addTable(table);
-            ResultSet columns = result.getColumns(null, null, table.getName(), null);
-            ResultSet pks = result.getPrimaryKeys(null, null, table.getName());
-            ResultSet foreign = result.getImportedKeys(null, null, table.getName());
+            columns = result.getColumns(null, null, table.getName(), null);
+            pks = result.getPrimaryKeys(null, null, table.getName());
+            foreign = result.getImportedKeys(null, null, table.getName());
             while(pks.next()) {
-                Attribut pk = new Attribut(pks.getString("COLUMN_NAME"));
+                pk = new Attribute(pks.getString("COLUMN_NAME"));
                 table.addPrimaryKey(pk);
             }
             while(columns.next()) {
-                Attribut attribut = new Attribut(columns.getString("COLUMN_NAME"));
-                if (!table.getPrimaryKeys().contains(attribut))
-                    table.addAttribute(attribut);
+                attribute = new Attribute(columns.getString("COLUMN_NAME"));
+                if (!table.getPrimaryKeys().contains(attribute))
+                    table.addAttribute(attribute);
             }
         }
         tables = result.getTables(null, null, "%", null);
+
+        Attribute foreignAttribute = null;
+        Table foreignTable = null;
+        Reference ref = null;
+
         while(tables.next()) {
-            Table table = this.database.getTable(tables.getString("TABLE_NAME"));
-            ResultSet foreign = result.getImportedKeys(null, null, table.getName());
+            table = this.database.getTable(tables.getString("TABLE_NAME"));
+            foreign = result.getImportedKeys(null, null, table.getName());
             while (foreign.next()) {
-                Table foreignTable = this.database.getTable(foreign.getString("PKTABLE_NAME"));
-                Attribut attribut = table.getAttribute(foreign.getString("FKCOLUMN_NAME"));
-                String temp = foreign.getString("PKCOLUMN_NAME");
-                Reference ref = null;
-                ref = new Reference(foreignTable, foreignTable.getPrimaryKey(foreign.getString("PKCOLUMN_NAME")));
-                attribut.setReference(ref);
+                attribute = table.getAttribute(foreign.getString("FKCOLUMN_NAME"));
+                foreignTable = this.database.getTable(foreign.getString("PKTABLE_NAME"));
+                foreignAttribute = foreignTable.getPrimaryKey(foreign.getString("PKCOLUMN_NAME"));
+                if (foreignAttribute==null)
+                    foreignAttribute = foreignTable.getAttribute(foreign.getString("PKCOLUMN_NAME"));
+                ref = new Reference(foreignTable, foreignAttribute);
+                attribute.setReference(ref);
             }
         }
         return this.database;
@@ -63,15 +89,15 @@ public class DatabaseMapper {
             System.out.println("Datenbank: " + database.getName());
             for (Table table : database.getTables()) {
                 System.out.println("\tTabelle: " + table.getName());
-                for (Attribut pk : table.getPrimaryKeys()) {
+                for (Attribute pk : table.getPrimaryKeys()) {
                     System.out.println("\t\tPrimary Key: " + pk.getName());
                     if (pk.getReference()!=null)
                         System.out.println("\t\t\tReferenz: " + pk.getReference().getRefAttribute().getName());
                 }
-                for (Attribut attribut : table.getAttributes()) {
-                    System.out.println("\t\tAttribut: " + attribut.getName());
-                    if (attribut.getReference()!=null)
-                        System.out.println("\t\t\tReferenz: " + attribut.getReference().getRefAttribute().getName());
+                for (Attribute attribute : table.getAttributes()) {
+                    System.out.println("\t\tAttribut: " + attribute.getName());
+                    if (attribute.getReference()!=null)
+                        System.out.println("\t\t\tReferenz: " + attribute.getReference().getRefAttribute().getName());
                 }
             }
         } catch (SQLException e) {

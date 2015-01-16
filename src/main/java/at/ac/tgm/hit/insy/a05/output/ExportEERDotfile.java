@@ -1,6 +1,6 @@
 package at.ac.tgm.hit.insy.a05.output;
 
-import at.ac.tgm.hit.insy.a05.structur.Attribut;
+import at.ac.tgm.hit.insy.a05.structur.Attribute;
 import at.ac.tgm.hit.insy.a05.structur.Database;
 import at.ac.tgm.hit.insy.a05.structur.Table;
 
@@ -43,23 +43,23 @@ public class ExportEERDotfile implements Exportable {
     private void printAttributes() {
         this.output.println(ExportEERDotfile.attributes);
         for (Table table : database.getTables()) {
-            for (Attribut attribut : table.getPrimaryKeys()) {
+            for (Attribute attribute : table.getPrimaryKeys()) {
                 //TODO PK underline
                 this.output.print(ExportEERDotfile.startNodeLable);
-                this.output.print(attribut.getName());
+                this.output.print(attribute.getName());
                 this.output.print(ExportEERDotfile.endLable);
                 this.output.print(table.getName());
-                this.output.print(attribut.getName());
+                this.output.print(attribute.getName());
                 this.output.print(ExportEERDotfile.endAttribute);
                 this.output.println(ExportEERDotfile.endNode);
             }
 
-            for (Attribut attribut : table.getAttributes()) {
+            for (Attribute attribute : table.getAttributes()) {
                 this.output.print(ExportEERDotfile.startNodeLable);
-                this.output.print(attribut.getName());
+                this.output.print(attribute.getName());
                 this.output.print(ExportEERDotfile.endLable);
                 this.output.print(table.getName());
-                this.output.print(attribut.getName());
+                this.output.print(attribute.getName());
                 this.output.print(ExportEERDotfile.endAttribute);
                 this.output.println(ExportEERDotfile.endNode);
             }

@@ -7,47 +7,47 @@ public class Table {
 
     private String name;
 
-    private Set<Attribut> attributes;
+    private Set<Attribute> attributes;
 
-    private Set<Attribut> primaryKeys;
+    private Set<Attribute> primaryKeys;
 
     public Table(String name) {
         this.name = name;
-        this.attributes = new HashSet<Attribut>();
-        this.primaryKeys = new HashSet<Attribut>();
+        this.attributes = new HashSet<Attribute>();
+        this.primaryKeys = new HashSet<Attribute>();
     }
 
     public String getName() {
         return this.name;
     }
 
-    public Set<Attribut> getAttributes() {
+    public Set<Attribute> getAttributes() {
         return this.attributes;
     }
 
-    public Set<Attribut> getPrimaryKeys() {
+    public Set<Attribute> getPrimaryKeys() {
         return this.primaryKeys;
     }
 
-    public void addPrimaryKey(Attribut primaryKey) {
+    public void addPrimaryKey(Attribute primaryKey) {
         this.primaryKeys.add(primaryKey);
     }
 
-    public Attribut getAttribute(String attributName) {
-        for (Attribut attribut : this.attributes) {
-            if (attribut.getName().equals(attributName)) return attribut;
+    public Attribute getAttribute(String attributeName) {
+        for (Attribute attribute : this.attributes) {
+            if (attribute.getName().equals(attributeName)) return attribute;
         }
         return null;
     }
 
-    public Attribut getPrimaryKey(String primaryKeyName) {
-        for (Attribut primaryKey : this.primaryKeys) {
+    public Attribute getPrimaryKey(String primaryKeyName) {
+        for (Attribute primaryKey : this.primaryKeys) {
             if (primaryKey.getName().equals(primaryKeyName)) return primaryKey;
         }
         return null;
     }
 
-    public void addAttribute(Attribut attribute) {
+    public void addAttribute(Attribute attribute) {
         this.attributes.add(attribute);
     }
 
