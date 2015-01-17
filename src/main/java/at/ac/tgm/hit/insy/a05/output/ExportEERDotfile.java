@@ -7,7 +7,14 @@ import at.ac.tgm.hit.insy.a05.structur.Table;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Exports a Database to a File in Graphviz Dot format
+ *
+ * @see at.ac.tgm.hit.insy.a05.output.Exportable
+ */
 public class ExportEERDotfile implements Exportable {
 
     private PrintWriter output;
@@ -17,17 +24,23 @@ public class ExportEERDotfile implements Exportable {
 
     private final static String endER = "}";
 
-    private final static String tables = "\tnode [shape=box]; ";
+    private final static String startTables = "\tnode [shape=box]; ";
 
-    private final static String attributes = "\tnode [shape=ellipse]; ";
+    private final static String startAttributes = "\tnode [shape=ellipse]; ";
 
-    private final static String startNodeLable = "\t\t{node [label=\"";
+    private final static String startNodeLablePK = "\t\t{node [label=<<u>";
 
-    private final static String endLable = "\"] ";
+    private final static String endLablePK = "</u>>] ";
+
+    private final static String startNodeLableNormal = "\t\t{node [label=\"";
+
+    private final static String endLableNormal = "\"] ";
 
     private final static String endNode = "}";
 
     private final static String endAttribute = "; ";
+
+    private final static String startAttributesToTable = " -- ";
 
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
@@ -37,17 +50,20 @@ public class ExportEERDotfile implements Exportable {
         this.printTables();
         this.printAttributes();
 
+        //TODO finish dot
+        this.printAttributesToTables();
         this.output.println(ExportEERDotfile.endER);
+
+        this.close();
     }
 
     private void printAttributes() {
-        this.output.println(ExportEERDotfile.attributes);
-        for (Table table : database.getTables()) {
+        this.output.println(ExportEERDotfile.startAttributes);
+        for (Table table : this.database.getTables()) {
             for (Attribute attribute : table.getPrimaryKeys()) {
-                //TODO PK underline
-                this.output.print(ExportEERDotfile.startNodeLable);
+                this.output.print(ExportEERDotfile.startNodeLablePK);
                 this.output.print(attribute.getName());
-                this.output.print(ExportEERDotfile.endLable);
+                this.output.print(ExportEERDotfile.endLablePK);
                 this.output.print(table.getName());
                 this.output.print(attribute.getName());
                 this.output.print(ExportEERDotfile.endAttribute);
@@ -55,9 +71,9 @@ public class ExportEERDotfile implements Exportable {
             }
 
             for (Attribute attribute : table.getAttributes()) {
-                this.output.print(ExportEERDotfile.startNodeLable);
+                this.output.print(ExportEERDotfile.startNodeLableNormal);
                 this.output.print(attribute.getName());
-                this.output.print(ExportEERDotfile.endLable);
+                this.output.print(ExportEERDotfile.endLableNormal);
                 this.output.print(table.getName());
                 this.output.print(attribute.getName());
                 this.output.print(ExportEERDotfile.endAttribute);
@@ -65,11 +81,27 @@ public class ExportEERDotfile implements Exportable {
             }
         }
 
+
+    }
+
+    private void printAttributesToTables() {
+        for (Table table : this.database.getTables()) {
+            List<Attribute> allAttributes = new ArrayList<Attribute>();
+            allAttributes.addAll(table.getPrimaryKeys());
+            allAttributes.addAll(table.getAttributes());
+            for (Attribute attribute : allAttributes) {
+                this.output.print(table.getName());
+                this.output.print(attribute.getName());
+                this.output.print(ExportEERDotfile.startAttributesToTable);
+                this.output.print(table.getName());
+                this.output.println(ExportEERDotfile.endAttribute);
+            }
+        }
     }
 
     private void printTables() {
-        this.output.print(ExportEERDotfile.tables);
-        for (Table table : database.getTables()) {
+        this.output.print(ExportEERDotfile.startTables);
+        for (Table table : this.database.getTables()) {
             this.output.print(table.getName());
             this.output.print(ExportEERDotfile.endAttribute);
         }
