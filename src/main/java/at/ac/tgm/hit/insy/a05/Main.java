@@ -1,7 +1,7 @@
 package at.ac.tgm.hit.insy.a05;
 
 import at.ac.tgm.hit.insy.a05.input.CLI;
-import at.ac.tgm.hit.insy.a05.input.source.MySQLFactory;
+import at.ac.tgm.hit.insy.a05.input.source.MySQLConnection;
 import at.ac.tgm.hit.insy.a05.output.ExportEERDotfile;
 import at.ac.tgm.hit.insy.a05.output.ExportFactory;
 import at.ac.tgm.hit.insy.a05.output.ExportRMHTML;
@@ -41,9 +41,6 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
 }

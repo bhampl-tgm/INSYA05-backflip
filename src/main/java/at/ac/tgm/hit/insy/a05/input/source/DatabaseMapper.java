@@ -4,6 +4,8 @@ import at.ac.tgm.hit.insy.a05.structur.Attribute;
 import at.ac.tgm.hit.insy.a05.structur.Database;
 import at.ac.tgm.hit.insy.a05.structur.Reference;
 import at.ac.tgm.hit.insy.a05.structur.Table;
+import com.mysql.jdbc.*;
+import com.mysql.jdbc.MySQLConnection;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -84,15 +86,22 @@ public class DatabaseMapper {
             foreign = result.getImportedKeys(null, null, table.getName());
             while (foreign.next()) {
                 //Vorhandenes Attribut, welches von einer anderen Tabelle den Wert hat, laden
-                attribute = table.getAttribute(foreign.getString("FKCOLUMN_NAME"));
+                attribute = table.getPrimaryKey(foreign.getString("FKCOLUMN_NAME"));
                 //Referenzierte Tabelle laden
                 foreignTable = database.getTable(foreign.getString("PKTABLE_NAME"));
                 //Referenziertes Attribut aus den PrimaryKeys laden
                 foreignAttribute = foreignTable.getPrimaryKey(foreign.getString("PKCOLUMN_NAME"));
+
+
+                String tempAktAttribut = foreign.getString("FKCOLUMN_NAME");
+                String tempForeignTable = foreign.getString("PKTABLE_NAME");
+                String tempForeignAttribute = foreign.getString("PKCOLUMN_NAME");
+
                 //Wenn dies nicht in den PrimaryKeys enthalten ist, aus den Attributen holen
                 if (foreignAttribute==null)
                     foreignAttribute = foreignTable.getAttribute(foreign.getString("PKCOLUMN_NAME"));
                 //Erstellen der Referenz
+                //TODO NullPointerException
                 ref = new Reference(foreignTable, foreignAttribute);
                 //Hinzufuegen der Referenz
                 attribute.setReference(ref);
@@ -110,7 +119,7 @@ public class DatabaseMapper {
 
     public static void main(String[] args) {
         try {
-            Database database = new DatabaseMapper(new MySQLFactory().createConnection("localhost", "premiere", "insy4", "blabla")).executeMapping();
+            Database database = new DatabaseMapper(new ConnectionFactory().createMySQLConnection("localhost", "premiere", "insy4", "blabla")).executeMapping();
             System.out.println("Datenbank: " + database.getName());
             for (Table table : database.getTables()) {
                 System.out.println("\tTabelle: " + table.getName());

@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author Martin Kritzl
  */
-public class MySQLFactory implements DatabaseConnection {
+public class MySQLConnection implements DatabaseConnection {
 
 
     /**
