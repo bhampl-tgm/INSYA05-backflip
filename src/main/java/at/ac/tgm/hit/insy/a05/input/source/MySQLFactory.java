@@ -6,11 +6,16 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class MySQLFactory implements ConnectionFactory {
+/**
+ * Creates a connection to a MySQL-Database
+ *
+ * @author Martin Kritzl
+ */
+public class MySQLFactory implements DatabaseConnection {
 
 
     /**
-     * @see at.ac.tgm.hit.insy.a05.input.source.ConnectionFactory#createConnection(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see at.ac.tgm.hit.insy.a05.input.source.DatabaseConnection#createConnection(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     public Connection createConnection(String hostname, String database, String username, String password) throws SQLException {
         MysqlDataSource dataSource = new MysqlDataSource();

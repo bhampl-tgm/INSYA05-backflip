@@ -3,6 +3,11 @@ package at.ac.tgm.hit.insy.a05.structur;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Database and its tables
+ *
+ * @author Martin Kritzl
+ */
 public class Database {
 
     private String name;
@@ -14,6 +19,12 @@ public class Database {
         this.tables = new ArrayList<Table>();
     }
 
+    /**
+     * Returns the table with the given Name
+     *
+     * @param tableName the name of the wanted Table
+     * @return the wanted Table
+     */
     public Table getTable(String tableName) {
         for (Table table : this.tables) {
             if (table.getName().equals(tableName)) return table;

@@ -1,5 +1,10 @@
 package at.ac.tgm.hit.insy.a05.structur;
 
+/**
+ * Represents an Attribute of a Table and might be a foreign key of another table
+ *
+ * @author Martin Kritzl
+ */
 public class Attribute {
 
     private String name;
@@ -22,6 +27,13 @@ public class Attribute {
         this.reference = reference;
     }
 
+    /**
+     * A name of an Attribute in one table could only exists once.
+     * So only the name specifies the identification.
+     *
+     * @param o Object that should be compared
+     * @return If the Object equals the name
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,6 +46,11 @@ public class Attribute {
         return true;
     }
 
+    /**
+     * The hashcode is only made out of the name
+     *
+     * @return Hashcode
+     */
     @Override
     public int hashCode() {
         return name.hashCode();

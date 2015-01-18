@@ -26,7 +26,7 @@ public class Main {
         Main.CLI.parseArgs(args);
         Connection connection = null;
         try {
-            connection = new MySQLFactory().createConnection(Main.CLI.getHostname(), Main.CLI.getDatabaseName(), Main.CLI.getUser(), Main.CLI.getPassword());
+            connection = new ConnectionFactory().createMySQLConnection(Main.CLI.getHostname(), Main.CLI.getDatabaseName(), Main.CLI.getUser(), Main.CLI.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }

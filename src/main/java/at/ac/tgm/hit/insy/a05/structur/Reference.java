@@ -1,5 +1,10 @@
 package at.ac.tgm.hit.insy.a05.structur;
 
+/**
+ * Represents a Referenz or a foreign Key of a Table
+ *
+ * @author Martin Kritzl
+ */
 public class Reference {
 
     private Table refTable;

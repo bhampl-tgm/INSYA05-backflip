@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+/**
  * Erstellt aus der angegebenen Connection eine objektorientierte Abbildung der Datenbank
  *
  * @author Martin Kritzl
