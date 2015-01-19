@@ -93,9 +93,6 @@ public class DatabaseMapper {
                 foreignTable = database.getTable(foreign.getString("PKTABLE_NAME"));
                 //Load referenced attribute from the primary keys
                 foreignAttribute = foreignTable.getPrimaryKey(foreign.getString("PKCOLUMN_NAME"));
-                //If the referenced attribute is not a primary key, the Attribute will be loaded
-                if (foreignAttribute==null)
-                    foreignAttribute = foreignTable.getAttribute(foreign.getString("PKCOLUMN_NAME"));
                 //Creating the reference
                 ref = new Reference(foreignTable, foreignAttribute);
                 //Adding the reference to the attribute
@@ -112,26 +109,25 @@ public class DatabaseMapper {
      * @param args
      */
 
-    public static void main(String[] args) {
-        try {
-            Database database = new DatabaseMapper(new ConnectionFactory().createMySQLConnection("localhost", "premiere", "insy4", "blabla")).executeMapping();
-            System.out.println("Datenbank: " + database.getName());
-            for (Table table : database.getTables()) {
-                System.out.println("\tTabelle: " + table.getName());
-                for (Attribute pk : table.getPrimaryKeys()) {
-                    System.out.println("\t\tPrimary Key: " + pk.getName());
-                    if (pk.getReference()!=null)
-                        System.out.println("\t\t\tReferenz: " + pk.getReference().getRefAttribute().getName());
-                }
-                for (Attribute attribute : table.getAttributes()) {
-                    System.out.println("\t\tAttribut: " + attribute.getName());
-                    if (attribute.getReference()!=null)
-                        System.out.println("\t\t\tReferenz: " + attribute.getReference().getRefAttribute().getName());
-                }
+    public void show(Database database) {
+        System.out.println("Datenbank: " + database.getName());
+        for (Table table : database.getTables()) {
+            System.out.println("\tTabelle: " + table.getName());
+            for (Attribute pk : table.getPrimaryKeys()) {
+                System.out.println("\t\tPrimary Key: " + pk.getName());
+                if (pk.getReference()!=null)
+                    System.out.println("\t\t\tReferenz: " + pk.getReference().getRefAttribute().getName());
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            for (Attribute attribute : table.getAttributes()) {
+                System.out.println("\t\tAttribut: " + attribute.getName());
+                if (attribute.getReference()!=null)
+                    System.out.println("\t\t\tReferenz: " + attribute.getReference().getRefAttribute().getName());
+            }
         }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        new DatabaseMapper(new ConnectionFactory().createMySQLConnection("localhost", "backflip", "insy4", "blabla")).executeMapping();
     }
 
 }
