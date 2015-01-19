@@ -13,8 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
-/**
- * Erstellt aus der angegebenen Connection eine objektorientierte Abbildung der Datenbank
+ * Creates a object-oriented structure of the Database from the given Connection
  *
  * @author Martin Kritzl
  *
@@ -28,18 +27,18 @@ public class DatabaseMapper {
     }
 
     /**
-     * Erstellt eine objektorientierte Abbildung der Datenbank
+     * Creates a object-oriented structure of the Database
      *
-     * @return Erstellte Datenbank
+     * @return Created Database
      * @throws SQLException
      */
     public Database executeMapping() throws SQLException {
-        //Erstellen eines neuen Datenbankobjekts
+        //Creates a new database object
         Database database = new Database(this.connection.getCatalog());
-        //Erhalten aller Metadaten aus der Connection
+        //Receive all MetaData from the connection
         DatabaseMetaData result = this.connection.getMetaData();
 
-        //Erhalten aller Tabellen
+        //Receive all Tables
         ResultSet tables = result.getTables(null, null, "%", null);
 
         Table table = null;
@@ -49,24 +48,25 @@ public class DatabaseMapper {
         Attribute attribute = null;
         Attribute pk = null;
 
-        //Erstellen der Tabellen und Attribute ohne beruecksichtigung von foreignKeys
-
+        /**
+         * Creating all Tables and Attributes without any foreign keys
+         */
         while(tables.next()) {
-            //Erstellen einer neuen Tabelle
+            //Creating a new table
             table = new Table(tables.getString("TABLE_NAME"));
             database.addTable(table);
-            //Erhalten aller Attribute und PrimaryKeys der Tabelle
+            //Receive all attributes and primary keys from the table
             columns = result.getColumns(null, null, table.getName(), null);
             pks = result.getPrimaryKeys(null, null, table.getName());
-            //Hinzufuegen der PrimaryKeys
+            //Adding primary keys
             while(pks.next()) {
                 pk = new Attribute(pks.getString("COLUMN_NAME"));
                 table.addPrimaryKey(pk);
             }
-            //Hinzufuegen der Attribute
+            //Adding attributes
             while(columns.next()) {
                 attribute = new Attribute(columns.getString("COLUMN_NAME"));
-                //Wird nur hinzugefuegt wenn das Attribut nicht schon in den PrimaryKeys drinnen ist
+                //It will only be added, when the attribute is not a primary key
                 if (!table.getPrimaryKeys().contains(attribute))
                     table.addAttribute(attribute);
             }
@@ -77,33 +77,28 @@ public class DatabaseMapper {
         Table foreignTable = null;
         Reference ref = null;
 
-        //Hinzufuegen der foreign Keys zu den Attributen
+        //Adding foreign keys to the attributes
 
         while(tables.next()) {
-            //Vorhandene Tabelle laden
+            //load existing table
             table = database.getTable(tables.getString("TABLE_NAME"));
-            //Foreign Keys aus den Metadaten holen
+            //receiving foreign keys
             foreign = result.getImportedKeys(null, null, table.getName());
             while (foreign.next()) {
-                //Vorhandenes Attribut, welches von einer anderen Tabelle den Wert hat, laden
+                //Loading existing Attribute, that uses a value from another table
                 attribute = table.getPrimaryKey(foreign.getString("FKCOLUMN_NAME"));
-                //Referenzierte Tabelle laden
+                //When the foreign key is not a primary key, the attribute will be loaded
+                if (attribute==null) attribute = table.getAttribute(foreign.getString("FKCOLUMN_NAME"));
+                //Load referenced table
                 foreignTable = database.getTable(foreign.getString("PKTABLE_NAME"));
-                //Referenziertes Attribut aus den PrimaryKeys laden
+                //Load referenced attribute from the primary keys
                 foreignAttribute = foreignTable.getPrimaryKey(foreign.getString("PKCOLUMN_NAME"));
-
-
-                String tempAktAttribut = foreign.getString("FKCOLUMN_NAME");
-                String tempForeignTable = foreign.getString("PKTABLE_NAME");
-                String tempForeignAttribute = foreign.getString("PKCOLUMN_NAME");
-
-                //Wenn dies nicht in den PrimaryKeys enthalten ist, aus den Attributen holen
+                //If the referenced attribute is not a primary key, the Attribute will be loaded
                 if (foreignAttribute==null)
                     foreignAttribute = foreignTable.getAttribute(foreign.getString("PKCOLUMN_NAME"));
-                //Erstellen der Referenz
-                //TODO NullPointerException
+                //Creating the reference
                 ref = new Reference(foreignTable, foreignAttribute);
-                //Hinzufuegen der Referenz
+                //Adding the reference to the attribute
                 attribute.setReference(ref);
             }
         }

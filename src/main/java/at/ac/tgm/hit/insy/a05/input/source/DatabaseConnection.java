@@ -10,6 +10,7 @@ import java.sql.SQLException;
  */
 public interface DatabaseConnection {
     /**
+     * Creates a Connection to a Database.
      *
      * @param hostname
      * @param database
