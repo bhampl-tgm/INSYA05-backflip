@@ -2,6 +2,7 @@ package at.ac.tgm.hit.insy.a05.output;
 
 import at.ac.tgm.hit.insy.a05.structur.Attribute;
 import at.ac.tgm.hit.insy.a05.structur.Database;
+import at.ac.tgm.hit.insy.a05.structur.Reference;
 import at.ac.tgm.hit.insy.a05.structur.Table;
 
 import java.io.File;
@@ -23,6 +24,10 @@ public class ExportRMHTML implements Exportable {
             + System.lineSeparator()
             + "<html>"
             + System.lineSeparator()
+            + "\t<head>"
+            + System.lineSeparator()
+            + "\t</head>"
+            + System.lineSeparator()
             + "\t<body>";
 
     private static final String endHTML = "\t</body>"
@@ -41,6 +46,12 @@ public class ExportRMHTML implements Exportable {
 
     private static final String endAttribute = ", ";
 
+    private static final String endLine = "<br />";
+
+    private static final String refTableSeperator = ".";
+
+    private static final String localNameSeperator = ":";
+
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
         this.database = database;
@@ -56,6 +67,7 @@ public class ExportRMHTML implements Exportable {
 
     private void printAll() {
         //TODO finish HTML
+        //TODO Change to StringBuilder
         for (Table table : this.database.getTables()) {
             this.output.print(ExportRMHTML.beginTable);
             this.output.print(table.getName());
@@ -70,7 +82,19 @@ public class ExportRMHTML implements Exportable {
                 this.output.print(attribute.getName());
                 this.output.print(ExportRMHTML.endAttribute);
             }
-            this.output.println(ExportRMHTML.endAttributes);
+            for (Attribute attribute : table.getPrimaryKeys()) {
+                Reference reference = attribute.getReference();
+                if (reference != null) {
+                    this.output.print(attribute.getName());
+                    this.output.print(ExportRMHTML.localNameSeperator);
+                    this.output.print(reference.getRefTable().getName());
+                    this.output.print(ExportRMHTML.refTableSeperator);
+                    this.output.print(reference.getRefAttribute().getName());
+                }
+            }
+            this.output.print(ExportRMHTML.endAttributes);
+            this.output.println(ExportRMHTML.endLine);
+
         }
     }
 
