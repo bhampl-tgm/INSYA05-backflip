@@ -1,4 +1,4 @@
-package at.ac.tgm.hit.insy.a05.tests;
+package at.ac.tgm.hit.insy.a05.test;
 
 import static org.junit.Assert.*;
 
@@ -41,6 +41,10 @@ public class TestDatabaseMapper {
     public void initialize() throws SQLException {
         this.con = Mockito.mock(Connection.class);
         this.meta = Mockito.mock(DatabaseMetaData.class);
+        this.tables = Mockito.mock(ResultSet.class);
+        this.columns = Mockito.mock(ResultSet.class);
+        this.pks = Mockito.mock(ResultSet.class);
+        this.foreign = Mockito.mock(ResultSet.class);
 
         Mockito.when(this.con.getMetaData()).thenReturn(this.meta);
         Mockito.when(this.con.getCatalog()).thenReturn("MyDatabase");
