@@ -52,13 +52,15 @@ public class ExportRMHTML implements Exportable {
 
     private static final String localNameSeperator = ":";
 
+    private static final String beginFK = "<i>";
+
+    private static final String endFK = "</i>";
+
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
         this.database = database;
         this.output = new PrintWriter(file);
         output.println(ExportRMHTML.beginHTML);
-
-        //TODO implement HTML
         this.printAll();
 
         output.println(ExportRMHTML.endHTML);
@@ -66,36 +68,56 @@ public class ExportRMHTML implements Exportable {
     }
 
     private void printAll() {
-        //TODO finish HTML
-        //TODO Change to StringBuilder
+        StringBuilder sb;
         for (Table table : this.database.getTables()) {
-            this.output.print(ExportRMHTML.beginTable);
-            this.output.print(table.getName());
-            this.output.print(ExportRMHTML.beginAttributes);
-            for (Attribute attribute : table.getPrimaryKeys()) {
-                this.output.print(ExportRMHTML.beginPK);
-                this.output.print(attribute.getName());
-                this.output.print(ExportRMHTML.endPK);
-                this.output.print(ExportRMHTML.endAttribute);
-            }
-            for (Attribute attribute : table.getAttributes()) {
-                this.output.print(attribute.getName());
-                this.output.print(ExportRMHTML.endAttribute);
-            }
+            sb = new StringBuilder();
+            sb.append(ExportRMHTML.beginTable);
+            sb.append(table.getName());
+            sb.append(ExportRMHTML.beginAttributes);
             for (Attribute attribute : table.getPrimaryKeys()) {
                 Reference reference = attribute.getReference();
-                if (reference != null) {
-                    this.output.print(attribute.getName());
-                    this.output.print(ExportRMHTML.localNameSeperator);
-                    this.output.print(reference.getRefTable().getName());
-                    this.output.print(ExportRMHTML.refTableSeperator);
-                    this.output.print(reference.getRefAttribute().getName());
+                if (reference == null) {
+                    sb.append(ExportRMHTML.beginPK);
+                    sb.append(attribute.getName());
+                    sb.append(ExportRMHTML.endPK);
+                    sb.append(ExportRMHTML.endAttribute);
+                } else {
+                    sb.append(ExportRMHTML.beginPK);
+                    this.printFK(sb, attribute, reference);
+                    sb.append(ExportRMHTML.endPK);
+                    sb.append(ExportRMHTML.endAttribute);
                 }
             }
-            this.output.print(ExportRMHTML.endAttributes);
-            this.output.println(ExportRMHTML.endLine);
+            for (Attribute attribute : table.getAttributes()) {
+                if (attribute.getReference() == null) {
+                    sb.append(attribute.getName());
+                    sb.append(ExportRMHTML.endAttribute);
+                }
+            }
+            for (Attribute attribute : table.getAttributes()) {
+                Reference reference = attribute.getReference();
+                if (reference != null) {
+                    this.printFK(sb, attribute, reference);
+                    sb.append(ExportRMHTML.endAttribute);
+                }
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            sb.deleteCharAt(sb.length() - 1);
+            sb.append(ExportRMHTML.endAttributes);
+            sb.append(ExportRMHTML.endLine);
+            this.output.println(sb.toString());
 
         }
+    }
+
+    private void printFK(StringBuilder sb, Attribute attribute, Reference reference) {
+        sb.append(ExportRMHTML.beginFK);
+        sb.append(attribute.getName());
+        sb.append(ExportRMHTML.localNameSeperator);
+        sb.append(reference.getRefTable().getName());
+        sb.append(ExportRMHTML.refTableSeperator);
+        sb.append(reference.getRefAttribute().getName());
+        sb.append(ExportRMHTML.endFK);
     }
 
     @Override
