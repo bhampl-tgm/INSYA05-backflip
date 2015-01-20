@@ -86,9 +86,10 @@ public class DatabaseMapper {
             foreign = result.getImportedKeys(null, null, table.getName());
             while (foreign.next()) {
                 //Loading existing Attribute, that uses a value from another table
-                attribute = table.getPrimaryKey(foreign.getString("FKCOLUMN_NAME"));
+                String localName = foreign.getString("FKCOLUMN_NAME");
+                attribute = table.getPrimaryKey(localName);
                 //When the foreign key is not a primary key, the attribute will be loaded
-                if (attribute==null) attribute = table.getAttribute(foreign.getString("FKCOLUMN_NAME"));
+                if (attribute==null) attribute = table.getAttribute(localName);
                 //Load referenced table
                 foreignTable = database.getTable(foreign.getString("PKTABLE_NAME"));
                 //Load referenced attribute from the primary keys
@@ -106,7 +107,6 @@ public class DatabaseMapper {
      * Bitte löschen vor der Abgabe!!!!!!!!!!!!!!
      * Ist zum Visualisieren der erfassten Daten, solange die anderen Outputs noch nicht funktionsfähig sind
      *
-     * @param args
      */
 
     public void show(Database database) {
@@ -127,7 +127,9 @@ public class DatabaseMapper {
     }
 
     public static void main(String[] args) throws SQLException {
-        new DatabaseMapper(new ConnectionFactory().createMySQLConnection("localhost", "backflip", "insy4", "blabla")).executeMapping();
+        Connection con = new ConnectionFactory().createMySQLConnection("localhost", "backflip", "insy4", "blabla");
+        DatabaseMapper map = new DatabaseMapper(con);
+        map.show(map.executeMapping());
     }
 
 }
