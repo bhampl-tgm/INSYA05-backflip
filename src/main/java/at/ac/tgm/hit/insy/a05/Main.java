@@ -8,6 +8,7 @@ import at.ac.tgm.hit.insy.a05.structur.Database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -36,7 +37,7 @@ public class Main {
         }
         try {
             new ExportFactory().chooseExport(Main.CLI.getFormat()).export(database, Main.CLI.getFile());
-            logger.info("The file was successfully created under " + Main.CLI.getFile().getPath()+ "\\" + Main.CLI.getFile().getName());
+            logger.info("The file was successfully created under " + Main.CLI.getFile().getPath()+ File.separator + Main.CLI.getFile().getName());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
