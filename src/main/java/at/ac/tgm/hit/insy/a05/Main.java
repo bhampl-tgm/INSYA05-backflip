@@ -5,6 +5,7 @@ import at.ac.tgm.hit.insy.a05.input.source.ConnectionFactory;
 import at.ac.tgm.hit.insy.a05.input.source.DatabaseMapper;
 import at.ac.tgm.hit.insy.a05.output.ExportFactory;
 import at.ac.tgm.hit.insy.a05.structur.Database;
+import jdk.nashorn.internal.runtime.ListAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +38,7 @@ public class Main {
         }
         try {
             new ExportFactory().chooseExport(Main.CLI.getFormat()).export(database, Main.CLI.getFile());
-            logger.info("The file was successfully created under " + Main.CLI.getFile().getPath()+ File.separator + Main.CLI.getFile().getName());
+            logger.info("The file was successfully created under " + Main.CLI.getFile().getPath());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
