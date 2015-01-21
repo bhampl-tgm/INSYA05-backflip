@@ -13,6 +13,8 @@ import java.util.List;
 /**
  * Exports a Database to a File in Graphviz Dot format
  *
+ * @version 0.1
+ * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
  * @see at.ac.tgm.hit.insy.a05.output.Exportable
  */
 public class ExportEERDotfile implements Exportable {

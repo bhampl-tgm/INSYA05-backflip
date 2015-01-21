@@ -8,6 +8,9 @@ import java.io.FileNotFoundException;
 
 /**
  * Interface for Export a database
+ *
+ * @version 0.1
+ * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
  */
 public interface Exportable extends Closeable {
 

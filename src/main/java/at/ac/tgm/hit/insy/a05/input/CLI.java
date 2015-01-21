@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 /**
  * Pars the command line ars
  *
- * @author Burkhard Hampl
+ * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
  * @version 0.1
  */
 public class CLI {
