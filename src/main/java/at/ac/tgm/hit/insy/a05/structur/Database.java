@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Represents a Database and its tables
  *
- * @author Martin Kritzl
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class Database {
 

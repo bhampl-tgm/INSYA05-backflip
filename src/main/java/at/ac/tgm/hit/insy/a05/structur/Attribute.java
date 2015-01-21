@@ -3,7 +3,7 @@ package at.ac.tgm.hit.insy.a05.structur;
 /**
  * Represents an Attribute of a Table and might be a foreign key of another table
  *
- * @author Martin Kritzl
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class Attribute {
 
@@ -41,9 +41,8 @@ public class Attribute {
 
         Attribute attribute = (Attribute) o;
 
-        if (!name.equals(attribute.name)) return false;
+        return name.equals(attribute.name);
 
-        return true;
     }
 
     /**

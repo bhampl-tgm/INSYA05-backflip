@@ -6,16 +6,16 @@ import java.sql.SQLException;
 /**
  * Creates a Connection to a Database.
  *
- * @author Martin Kritzl
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public interface DatabaseConnection {
     /**
      * Creates a Connection to a Database.
      *
-     * @param hostname
-     * @param database
-     * @param username
-     * @param password
+     * @param hostname the hostname of the database
+     * @param database the databasename
+     * @param username the username
+     * @param password the password of the user
      * @return The connection to the database
      * @throws SQLException
      */

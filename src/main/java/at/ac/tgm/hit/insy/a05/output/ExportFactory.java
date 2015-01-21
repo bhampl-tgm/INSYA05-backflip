@@ -7,10 +7,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * Created by Martin Kritzl on 18.01.2015.
+ * Returns the correct exporting object depending on the chosen format.
+ *
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class ExportFactory {
 
+    /**
+     * Returns the correct exporting object depending on the chosen format.
+     *
+     * @param format the required name of the format
+     * @return an exportable Object depending on the format
+     */
     public Exportable chooseExport(String format) {
         if (format.equalsIgnoreCase("EER"))
             return new ExportEERDotfile();

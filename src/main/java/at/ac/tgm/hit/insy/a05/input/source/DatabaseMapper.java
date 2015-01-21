@@ -4,8 +4,6 @@ import at.ac.tgm.hit.insy.a05.structur.Attribute;
 import at.ac.tgm.hit.insy.a05.structur.Database;
 import at.ac.tgm.hit.insy.a05.structur.Reference;
 import at.ac.tgm.hit.insy.a05.structur.Table;
-import com.mysql.jdbc.*;
-import com.mysql.jdbc.MySQLConnection;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -15,7 +13,7 @@ import java.sql.SQLException;
 /**
  * Creates a object-oriented structure of the Database from the given Connection
  *
- * @author Martin Kritzl
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  *
  */
 public class DatabaseMapper {
@@ -41,12 +39,12 @@ public class DatabaseMapper {
         //Receive all Tables
         ResultSet tables = result.getTables(null, null, "%", null);
 
-        Table table = null;
-        ResultSet columns = null;
-        ResultSet pks = null;
-        ResultSet foreign = null;
-        Attribute attribute = null;
-        Attribute pk = null;
+        Table table;
+        ResultSet columns;
+        ResultSet pks;
+        ResultSet foreign;
+        Attribute attribute;
+        Attribute pk;
 
         /**
          * Creating all Tables and Attributes without any foreign keys
@@ -73,9 +71,9 @@ public class DatabaseMapper {
         }
 
         tables = result.getTables(null, null, "%", null);
-        Attribute foreignAttribute = null;
-        Table foreignTable = null;
-        Reference ref = null;
+        Attribute foreignAttribute;
+        Table foreignTable;
+        Reference ref;
 
         //Adding foreign keys to the attributes
 

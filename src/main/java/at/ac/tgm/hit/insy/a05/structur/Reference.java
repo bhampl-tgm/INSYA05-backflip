@@ -3,7 +3,7 @@ package at.ac.tgm.hit.insy.a05.structur;
 /**
  * Represents a Referenz or a foreign Key of a Table
  *
- * @author Martin Kritzl
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class Reference {
 

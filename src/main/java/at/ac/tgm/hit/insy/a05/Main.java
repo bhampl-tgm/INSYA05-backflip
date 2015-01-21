@@ -1,14 +1,12 @@
 package at.ac.tgm.hit.insy.a05;
 
 import at.ac.tgm.hit.insy.a05.input.CLI;
-import at.ac.tgm.hit.insy.a05.input.source.MySQLConnection;
-import at.ac.tgm.hit.insy.a05.output.ExportEERDotfile;
-import at.ac.tgm.hit.insy.a05.output.ExportFactory;
-import at.ac.tgm.hit.insy.a05.output.ExportRMHTML;
-import at.ac.tgm.hit.insy.a05.output.Exportable;
 import at.ac.tgm.hit.insy.a05.input.source.ConnectionFactory;
 import at.ac.tgm.hit.insy.a05.input.source.DatabaseMapper;
+import at.ac.tgm.hit.insy.a05.output.ExportFactory;
 import at.ac.tgm.hit.insy.a05.structur.Database;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -17,10 +15,7 @@ import java.sql.SQLException;
 public class Main {
 
     private static final CLI CLI = new CLI();
-
-    private DatabaseMapper databaseMapper;
-
-    private Exportable exportable;
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
         Main.CLI.parseArgs(args);
@@ -38,6 +33,7 @@ public class Main {
         }
         try {
             new ExportFactory().chooseExport(Main.CLI.getFormat()).export(database, Main.CLI.getFile());
+            logger.info("The file was successfully created under " + Main.CLI.getFile().getPath()+ "/" + Main.CLI.getFile().getName());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

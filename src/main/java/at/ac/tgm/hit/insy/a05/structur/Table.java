@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Represents a Table of a database
  *
- * @author Martin Kritzl
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class Table {
 
