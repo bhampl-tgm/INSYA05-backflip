@@ -8,7 +8,7 @@ import java.sql.SQLException;
  *
  * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
-public class ConnectionFactory extends AbstractDatabaseConnection {
+public class ConnectionFactory {
     /**
      *
      * @param hostname the hostname of the database
@@ -18,7 +18,7 @@ public class ConnectionFactory extends AbstractDatabaseConnection {
      * @return the connection to the database
      * @throws SQLException
      */
-    public Connection createMySQLConnection(String hostname, String database, String username, String password) throws SQLException {
+    public static Connection createMySQLConnection(String hostname, String database, String username, String password) throws SQLException {
         return new MySQLConnection().createConnection(hostname,database,username,password);
     }
 

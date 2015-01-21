@@ -8,7 +8,7 @@ import java.sql.SQLException;
  *
  * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
-public abstract class AbstractDatabaseConnection {
+public abstract interface AbstractDatabaseConnection {
     /**
      * Creates a Connection to a MySQL Database.
      *
@@ -19,5 +19,5 @@ public abstract class AbstractDatabaseConnection {
      * @return the Connection to the MySQL database
      * @throws SQLException
      */
-    public abstract Connection createMySQLConnection(String hostname, String database, String username, String password) throws SQLException;
+    //public static Connection createMySQLConnection(String hostname, String database, String username, String password) throws SQLException{}
 }

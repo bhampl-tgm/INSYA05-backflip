@@ -21,19 +21,22 @@ public class Main {
         Main.CLI.parseArgs(args);
         Connection connection = null;
         try {
-            connection = new ConnectionFactory().createMySQLConnection(Main.CLI.getHostname(), Main.CLI.getDatabaseName(), Main.CLI.getUser(), Main.CLI.getPassword());
+            connection = ConnectionFactory.createMySQLConnection(Main.CLI.getHostname(), Main.CLI.getDatabaseName(), Main.CLI.getUser(), Main.CLI.getPassword());
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Connection to the database refused");
+            System.exit(1);
+
         }
         Database database = null;
         try {
             database = new DatabaseMapper(connection).executeMapping();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Database can not be mapped");
+            System.exit(1);
         }
         try {
             new ExportFactory().chooseExport(Main.CLI.getFormat()).export(database, Main.CLI.getFile());
-            logger.info("The file was successfully created under " + Main.CLI.getFile().getPath()+ "/" + Main.CLI.getFile().getName());
+            logger.info("The file was successfully created under " + Main.CLI.getFile().getPath()+ "\\" + Main.CLI.getFile().getName());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
