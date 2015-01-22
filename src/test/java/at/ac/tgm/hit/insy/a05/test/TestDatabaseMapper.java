@@ -1,40 +1,23 @@
 package at.ac.tgm.hit.insy.a05.test;
 
-import static org.junit.Assert.*;
-
-import at.ac.tgm.hit.insy.a05.input.source.ConnectionFactory;
-import at.ac.tgm.hit.insy.a05.input.source.DatabaseConnection;
 import at.ac.tgm.hit.insy.a05.input.source.DatabaseMapper;
-import at.ac.tgm.hit.insy.a05.input.source.MySQLConnection;
 import at.ac.tgm.hit.insy.a05.structur.Attribute;
 import at.ac.tgm.hit.insy.a05.structur.Database;
 import at.ac.tgm.hit.insy.a05.structur.Table;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static org.junit.Assert.*;
+
 public class TestDatabaseMapper {
 
-    private Connection con;
-    private DatabaseMetaData meta;
     private Database database;
-    private ResultSet tables;
-    private ResultSet columnsPlane;
-    private ResultSet pksPlane;
-    private ResultSet foreignPlane;
-    private ResultSet columnsFlight;
-    private ResultSet pksFlight;
-    private ResultSet foreignFlight;
-    private ResultSet columnsAirline;
-    private ResultSet pksAirline;
-    private ResultSet foreignAirline;
 
     /**
      * Flugzeug: Nummer
@@ -49,64 +32,64 @@ public class TestDatabaseMapper {
     @Before
     public void initialize() throws SQLException {
         //Initialize Mock Objects
-        this.con = Mockito.mock(Connection.class);
-        this.meta = Mockito.mock(DatabaseMetaData.class);
-        this.tables = Mockito.mock(ResultSet.class);
-        this.columnsPlane = Mockito.mock(ResultSet.class);
-        this.pksPlane = Mockito.mock(ResultSet.class);
-        this.foreignPlane = Mockito.mock(ResultSet.class);
-        this.columnsFlight = Mockito.mock(ResultSet.class);
-        this.pksFlight = Mockito.mock(ResultSet.class);
-        this.foreignFlight = Mockito.mock(ResultSet.class);
-        this.columnsAirline = Mockito.mock(ResultSet.class);
-        this.pksAirline = Mockito.mock(ResultSet.class);
-        this.foreignAirline = Mockito.mock(ResultSet.class);
+        Connection con = Mockito.mock(Connection.class);
+        DatabaseMetaData meta = Mockito.mock(DatabaseMetaData.class);
+        ResultSet tables = Mockito.mock(ResultSet.class);
+        ResultSet columnsPlane = Mockito.mock(ResultSet.class);
+        ResultSet pksPlane = Mockito.mock(ResultSet.class);
+        ResultSet foreignPlane = Mockito.mock(ResultSet.class);
+        ResultSet columnsFlight = Mockito.mock(ResultSet.class);
+        ResultSet pksFlight = Mockito.mock(ResultSet.class);
+        ResultSet foreignFlight = Mockito.mock(ResultSet.class);
+        ResultSet columnsAirline = Mockito.mock(ResultSet.class);
+        ResultSet pksAirline = Mockito.mock(ResultSet.class);
+        ResultSet foreignAirline = Mockito.mock(ResultSet.class);
 
         //Set Metadatas
-        Mockito.when(this.con.getMetaData()).thenReturn(this.meta);
-        Mockito.when(this.con.getCatalog()).thenReturn("MyDatabase");
-        Mockito.when(this.meta.getTables(null, null, "%", null)).thenReturn(this.tables).thenReturn(this.tables);
+        Mockito.when(con.getMetaData()).thenReturn(meta);
+        Mockito.when(con.getCatalog()).thenReturn("MyDatabase");
+        Mockito.when(meta.getTables(null, null, "%", null)).thenReturn(tables).thenReturn(tables);
 
         //Prepare tables
-        Mockito.when(this.tables.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false)
+        Mockito.when(tables.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false)
                                         .thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
-        Mockito.when(this.tables.getString("TABLE_NAME")).thenReturn("planes").thenReturn("flights").thenReturn("airlines")
+        Mockito.when(tables.getString("TABLE_NAME")).thenReturn("planes").thenReturn("flights").thenReturn("airlines")
                                                          .thenReturn("planes").thenReturn("flights").thenReturn("airlines");
 
         //Prepare primary keys, attributes and foreign keys
-        Mockito.when(this.meta.getColumns(null, null, "planes", null)).thenReturn(this.columnsPlane);
-        Mockito.when(this.meta.getPrimaryKeys(null, null, "planes")).thenReturn(this.pksPlane);
-        Mockito.when(this.meta.getImportedKeys(null, null, "planes")).thenReturn(this.foreignPlane);
-        Mockito.when(this.meta.getColumns(null, null, "flights", null)).thenReturn(this.columnsFlight);
-        Mockito.when(this.meta.getImportedKeys(null, null, "flights")).thenReturn(this.foreignFlight);
-        Mockito.when(this.meta.getPrimaryKeys(null, null, "flights")).thenReturn(this.pksFlight);
-        Mockito.when(this.meta.getColumns(null, null, "airlines", null)).thenReturn(this.columnsAirline);
-        Mockito.when(this.meta.getPrimaryKeys(null, null, "airlines")).thenReturn(this.pksAirline);
-        Mockito.when(this.meta.getImportedKeys(null, null, "airlines")).thenReturn(this.foreignAirline);
+        Mockito.when(meta.getColumns(null, null, "planes", null)).thenReturn(columnsPlane);
+        Mockito.when(meta.getPrimaryKeys(null, null, "planes")).thenReturn(pksPlane);
+        Mockito.when(meta.getImportedKeys(null, null, "planes")).thenReturn(foreignPlane);
+        Mockito.when(meta.getColumns(null, null, "flights", null)).thenReturn(columnsFlight);
+        Mockito.when(meta.getImportedKeys(null, null, "flights")).thenReturn(foreignFlight);
+        Mockito.when(meta.getPrimaryKeys(null, null, "flights")).thenReturn(pksFlight);
+        Mockito.when(meta.getColumns(null, null, "airlines", null)).thenReturn(columnsAirline);
+        Mockito.when(meta.getPrimaryKeys(null, null, "airlines")).thenReturn(pksAirline);
+        Mockito.when(meta.getImportedKeys(null, null, "airlines")).thenReturn(foreignAirline);
 
         //Set primary keys
-        Mockito.when(this.pksPlane.next()).thenReturn(true).thenReturn(false);
-        Mockito.when(this.pksPlane.getString("COLUMN_NAME")).thenReturn("id");
-        Mockito.when(this.pksFlight.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        Mockito.when(this.pksFlight.getString("COLUMN_NAME")).thenReturn("nr").thenReturn("airline");
-        Mockito.when(this.pksAirline.next()).thenReturn(true).thenReturn(false);
-        Mockito.when(this.pksAirline.getString("COLUMN_NAME")).thenReturn("id");
+        Mockito.when(pksPlane.next()).thenReturn(true).thenReturn(false);
+        Mockito.when(pksPlane.getString("COLUMN_NAME")).thenReturn("id");
+        Mockito.when(pksFlight.next()).thenReturn(true).thenReturn(true).thenReturn(false);
+        Mockito.when(pksFlight.getString("COLUMN_NAME")).thenReturn("nr").thenReturn("airline");
+        Mockito.when(pksAirline.next()).thenReturn(true).thenReturn(false);
+        Mockito.when(pksAirline.getString("COLUMN_NAME")).thenReturn("id");
 
         //Set attributes
-        Mockito.when(this.columnsPlane.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        Mockito.when(this.columnsPlane.getString("COLUMN_NAME")).thenReturn("id").thenReturn("sitzplaetze");
-        Mockito.when(this.columnsFlight.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
-        Mockito.when(this.columnsFlight.getString("COLUMN_NAME")).thenReturn("nr").thenReturn("airline").thenReturn("plane");
-        Mockito.when(this.columnsAirline.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        Mockito.when(this.columnsAirline.getString("COLUMN_NAME")).thenReturn("id").thenReturn("land");
+        Mockito.when(columnsPlane.next()).thenReturn(true).thenReturn(true).thenReturn(false);
+        Mockito.when(columnsPlane.getString("COLUMN_NAME")).thenReturn("id").thenReturn("sitzplaetze");
+        Mockito.when(columnsFlight.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
+        Mockito.when(columnsFlight.getString("COLUMN_NAME")).thenReturn("nr").thenReturn("airline").thenReturn("plane");
+        Mockito.when(columnsAirline.next()).thenReturn(true).thenReturn(true).thenReturn(false);
+        Mockito.when(columnsAirline.getString("COLUMN_NAME")).thenReturn("id").thenReturn("land");
 
         //Set foreign keys
-        Mockito.when(this.foreignFlight.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        Mockito.when(this.foreignFlight.getString("FKCOLUMN_NAME")).thenReturn("plane").thenReturn("airline");
-        Mockito.when(this.foreignFlight.getString("PKTABLE_NAME")).thenReturn("planes").thenReturn("airlines");
-        Mockito.when(this.foreignFlight.getString("PKCOLUMN_NAME")).thenReturn("id").thenReturn("id");
+        Mockito.when(foreignFlight.next()).thenReturn(true).thenReturn(true).thenReturn(false);
+        Mockito.when(foreignFlight.getString("FKCOLUMN_NAME")).thenReturn("plane").thenReturn("airline");
+        Mockito.when(foreignFlight.getString("PKTABLE_NAME")).thenReturn("planes").thenReturn("airlines");
+        Mockito.when(foreignFlight.getString("PKCOLUMN_NAME")).thenReturn("id").thenReturn("id");
 
-        this.database = new DatabaseMapper(this.con).executeMapping();
+        this.database = new DatabaseMapper(con).executeMapping();
     }
 
     @Test
