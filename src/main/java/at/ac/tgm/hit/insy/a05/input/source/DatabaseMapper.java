@@ -125,7 +125,7 @@ public class DatabaseMapper {
     }
 
     public static void main(String[] args) throws SQLException {
-        Connection con = new ConnectionFactory().createMySQLConnection("localhost", "backflip", "insy4", "blabla");
+        Connection con = ConnectionFactory.createMySQLConnection("localhost", "backflip", "insy4", "blabla");
         DatabaseMapper map = new DatabaseMapper(con);
         map.show(map.executeMapping());
     }
