@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Martin Kritzl on 21.01.2015.
+ * Appender for the testing
  */
 
 public class Appender extends AppenderSkeleton {

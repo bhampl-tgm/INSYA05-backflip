@@ -15,6 +15,11 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the Methods of the DatabaseMapper Class and the package structur.
+ *
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
+ */
 public class TestDatabaseMapper {
 
     private Database database;

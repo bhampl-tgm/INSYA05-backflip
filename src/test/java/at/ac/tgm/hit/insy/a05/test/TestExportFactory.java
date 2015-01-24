@@ -9,7 +9,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by Martin Kritzl on 24.01.2015.
+ * Tests the Methods of the ExportFactory Class.
+ *
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class TestExportFactory {
 

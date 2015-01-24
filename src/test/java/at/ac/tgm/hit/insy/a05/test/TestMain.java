@@ -18,7 +18,9 @@ import java.sql.SQLException;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Martin Kritzl on 21.01.2015.
+ * Tests the Methods of the Main Class.
+ *
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class TestMain {
 
