@@ -19,6 +19,7 @@ public interface Exportable extends Closeable {
      *
      * @param database database
      * @param file file
+     * @throws java.io.FileNotFoundException if the given file is not found
      */
     public void export(Database database, File file) throws FileNotFoundException;
 

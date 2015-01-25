@@ -1,18 +1,27 @@
+// Plugins
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 
+// Deploy setting
 def deployNames = 'HamplKritzl_A05'
+
+// Run settings
+def runHostname = 'localhost'
+def runDatabse = 'backflip'
+def runUser = 'backflip'
+
+// Other setting
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 version = '0.1'
 
-mainClassName = "at.ac.tgm.hit.insy.a05.Main"
-
+// Repositories
 repositories {
     mavenCentral()
 }
 
+// Setting for code coverage
 jacoco {
     toolVersion = "0.7.1.201405082137"
     reportsDir = file("$buildDir/customJacocoReportDir")
@@ -26,6 +35,7 @@ jacocoTestReport {
     }
 }
 
+// Dependencies
 dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.34'
 //    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.1'
@@ -36,8 +46,21 @@ dependencies {
     compile files('lib/log4j-1.2.17.jar')
 }
 
-//create a single Jar with all dependencies
-task buildJar(type: Jar, dependsOn: [javadoc]) {
+// Run tasks
+task runRM(type: JavaExec, dependsOn: ['classes']) {
+    main = 'at.ac.tgm.hit.insy.a05.Main'
+    classpath = sourceSets.main.runtimeClasspath
+    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/rm.html', '-f', 'RM'
+}
+
+task runEER(type: JavaExec, dependsOn: ['classes']) {
+    main = 'at.ac.tgm.hit.insy.a05.Main'
+    classpath = sourceSets.main.runtimeClasspath
+    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/eer.svg', '-f', 'EER'
+}
+
+// Build Jar
+task buildJar(type: Jar, dependsOn: ['javadoc']) {
     manifest {
         attributes 'Implementation-Title': rootProject.name,
                 'Implementation-Version': version,
@@ -58,4 +81,3 @@ task buildJar(type: Jar, dependsOn: [javadoc]) {
     }
     with jar
 }
-
