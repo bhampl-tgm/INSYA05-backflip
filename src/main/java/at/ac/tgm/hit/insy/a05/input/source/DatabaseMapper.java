@@ -43,7 +43,10 @@ public class DatabaseMapper {
         ResultSet columns;
         ResultSet pks;
         ResultSet foreign;
-        Attribute attribute;
+        Attribute attribute = null;
+        ResultSet indexInfo;
+
+        boolean unique;
 
         /**
          * Creating all Tables and Attributes without any foreign keys
@@ -55,6 +58,7 @@ public class DatabaseMapper {
             //Receive all attributes and primary keys from the table
             columns = result.getColumns(null, null, table.getName(), null);
             pks = result.getPrimaryKeys(null, null, table.getName());
+            indexInfo = result.getIndexInfo(null, null, table.getName(), true, true);
             //Adding primary keys
             while(pks.next()) {
                 attribute = new Attribute(pks.getString("COLUMN_NAME"));
@@ -64,9 +68,13 @@ public class DatabaseMapper {
             while(columns.next()) {
                 attribute = new Attribute(columns.getString("COLUMN_NAME"));
                 //It will only be added, when the attribute is not a primary key
-                if (!table.getPrimaryKeys().contains(attribute)) {
-                    attribute.setUnique(columns.getBoolean("UNIQUE"));
+                if (!table.getPrimaryKeys().contains(attribute))
                     table.addAttribute(attribute);
+            }
+            while (indexInfo.next()) {
+                unique = indexInfo.getBoolean("NON_UNIQUE");
+                if (indexInfo.getBoolean("NON_UNIQUE") && indexInfo.getString("COLUMN_NAME").equals(attribute.getName())) {
+                    attribute.setUnique(true);
                 }
             }
         }

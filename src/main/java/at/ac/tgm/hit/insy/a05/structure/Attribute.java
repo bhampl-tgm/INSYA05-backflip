@@ -15,6 +15,7 @@ public class Attribute {
 
     public Attribute(String name) {
         this.name = name;
+        this.unique = false;
     }
 
     public String getName() {
