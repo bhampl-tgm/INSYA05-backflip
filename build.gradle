@@ -57,7 +57,7 @@ task runRM(type: JavaExec, dependsOn: ['classes']) {
 task runEER(type: JavaExec, dependsOn: ['classes']) {
     main = 'at.ac.tgm.hit.insy.a05.Main'
     classpath = sourceSets.main.runtimeClasspath
-    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/eer.svg', '-f', 'EER'
+    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/eer.dot', '-f', 'EER'
     standardInput = System.in
 }
 
