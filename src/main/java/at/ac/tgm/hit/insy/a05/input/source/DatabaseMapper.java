@@ -44,7 +44,6 @@ public class DatabaseMapper {
         ResultSet pks;
         ResultSet foreign;
         Attribute attribute = null;
-        ResultSet indexInfo;
 
         boolean unique;
 
@@ -53,15 +52,12 @@ public class DatabaseMapper {
          */
         while(tables.next()) {
 
-            String tempTable = tables.getString("TABLE_NAME");
-
             //Creating a new table
             table = new Table(tables.getString("TABLE_NAME"));
             database.addTable(table);
             //Receive all attributes and primary keys from the table
             columns = result.getColumns(null, null, table.getName(), null);
             pks = result.getPrimaryKeys(null, null, table.getName());
-            indexInfo = result.getIndexInfo(null, null, table.getName(), true, true);
             //Adding primary keys
             while(pks.next()) {
                 attribute = new Attribute(pks.getString("COLUMN_NAME"), table);
@@ -74,26 +70,15 @@ public class DatabaseMapper {
                 if (!table.getPrimaryKeys().contains(attribute))
                     table.addAttribute(attribute);
             }
-            while (indexInfo.next()) {
-                String tempType = indexInfo.getString("TYPE");
-                unique = !indexInfo.getBoolean("NON_UNIQUE");
-                boolean tempunique = indexInfo.getBoolean("NON_UNIQUE");
-                String tempInfoAttribute = indexInfo.getString("COLUMN_NAME");
-                String tempActAttribute = attribute.getName();
-//                for (Attribute atr : table.getAttributes()) {
-//
-//                }
-//                if (!indexInfo.getBoolean("NON_UNIQUE") && indexInfo.getString("COLUMN_NAME").equals(attribute.getName())) {
-//                    attribute.setUnique(true);
-//                }
-
-            }
         }
+
+
 
         tables = result.getTables(null, null, "%", null);
         Attribute foreignAttribute;
         Table foreignTable;
         Reference ref;
+        ResultSet indexInfo;
 
         //Adding foreign keys to the attributes
 
@@ -102,6 +87,7 @@ public class DatabaseMapper {
             table = database.getTable(tables.getString("TABLE_NAME"));
             //receiving foreign keys
             foreign = result.getImportedKeys(null, null, table.getName());
+
             while (foreign.next()) {
                 //Loading existing Attribute, that uses a value from another table
                 String localName = foreign.getString("FKCOLUMN_NAME");
@@ -116,6 +102,14 @@ public class DatabaseMapper {
                 ref = new Reference(foreignTable, foreignAttribute);
                 //Adding the reference to the attribute
                 attribute.setReference(ref);
+            }
+            //check if the attribute is unique
+            indexInfo = result.getIndexInfo(null, null, table.getName(), true, true);
+            while (indexInfo.next()) {
+                for (Attribute atr : table.getAttributes()) {
+                    if (atr.getName().equals(indexInfo.getString("COLUMN_NAME")))
+                        atr.setUnique(true);
+                }
             }
         }
         return database;
