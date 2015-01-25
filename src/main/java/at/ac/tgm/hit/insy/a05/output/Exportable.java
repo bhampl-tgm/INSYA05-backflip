@@ -1,6 +1,6 @@
 package at.ac.tgm.hit.insy.a05.output;
 
-import at.ac.tgm.hit.insy.a05.structur.Database;
+import at.ac.tgm.hit.insy.a05.structure.Database;
 
 import java.io.Closeable;
 import java.io.File;

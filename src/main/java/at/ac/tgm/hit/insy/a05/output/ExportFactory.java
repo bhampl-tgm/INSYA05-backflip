@@ -1,11 +1,5 @@
 package at.ac.tgm.hit.insy.a05.output;
 
-import at.ac.tgm.hit.insy.a05.Main;
-import at.ac.tgm.hit.insy.a05.structur.Database;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
 /**
  * Returns the correct exporting object depending on the chosen format.
  *

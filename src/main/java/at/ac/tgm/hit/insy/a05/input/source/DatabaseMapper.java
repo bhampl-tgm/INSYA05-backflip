@@ -1,9 +1,9 @@
 package at.ac.tgm.hit.insy.a05.input.source;
 
-import at.ac.tgm.hit.insy.a05.structur.Attribute;
-import at.ac.tgm.hit.insy.a05.structur.Database;
-import at.ac.tgm.hit.insy.a05.structur.Reference;
-import at.ac.tgm.hit.insy.a05.structur.Table;
+import at.ac.tgm.hit.insy.a05.structure.Attribute;
+import at.ac.tgm.hit.insy.a05.structure.Database;
+import at.ac.tgm.hit.insy.a05.structure.Reference;
+import at.ac.tgm.hit.insy.a05.structure.Table;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -44,7 +44,6 @@ public class DatabaseMapper {
         ResultSet pks;
         ResultSet foreign;
         Attribute attribute;
-        Attribute pk;
 
         /**
          * Creating all Tables and Attributes without any foreign keys
@@ -58,15 +57,17 @@ public class DatabaseMapper {
             pks = result.getPrimaryKeys(null, null, table.getName());
             //Adding primary keys
             while(pks.next()) {
-                pk = new Attribute(pks.getString("COLUMN_NAME"));
-                table.addPrimaryKey(pk);
+                attribute = new Attribute(pks.getString("COLUMN_NAME"));
+                table.addPrimaryKey(attribute);
             }
             //Adding attributes
             while(columns.next()) {
                 attribute = new Attribute(columns.getString("COLUMN_NAME"));
                 //It will only be added, when the attribute is not a primary key
-                if (!table.getPrimaryKeys().contains(attribute))
+                if (!table.getPrimaryKeys().contains(attribute)) {
+                    attribute.setUnique(columns.getBoolean("UNIQUE"));
                     table.addAttribute(attribute);
+                }
             }
         }
 

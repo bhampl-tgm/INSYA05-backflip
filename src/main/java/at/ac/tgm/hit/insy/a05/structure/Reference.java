@@ -1,4 +1,4 @@
-package at.ac.tgm.hit.insy.a05.structur;
+package at.ac.tgm.hit.insy.a05.structure;
 
 /**
  * Represents a Referenz or a foreign Key of a Table

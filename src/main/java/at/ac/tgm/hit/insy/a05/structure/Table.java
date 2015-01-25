@@ -1,4 +1,4 @@
-package at.ac.tgm.hit.insy.a05.structur;
+package at.ac.tgm.hit.insy.a05.structure;
 
 import java.util.HashSet;
 import java.util.Set;
