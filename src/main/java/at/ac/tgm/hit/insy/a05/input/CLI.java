@@ -28,8 +28,8 @@ public class CLI {
     @Option(name = "-d", usage = "specify database to use", required = true)
     private String databaseName;
 
-    @Option(name = "-o", usage = "specify output file")
-    private File file = new File(".");
+    @Option(name = "-o", usage = "specify output file (default: EER: eer.dot, RM: rm.html)")
+    private File file;
 
     @Option(name = "-f", usage = "specify output formant [EER | RM]", required = true)
     private String format;
@@ -51,8 +51,13 @@ public class CLI {
 
             // checks if the order direction is valid
             if (!this.format.equalsIgnoreCase("EER") && !this.format.equalsIgnoreCase("RM"));
+                //TODO exception for invalid input
                 //throw new CmdLineException(parser, Messages.NO_SORT_TYPE, this.format);
-
+            if ((this.file == null) && this.format.equalsIgnoreCase("EER")) {
+                this.file = new File("eer.dot");
+            } else if ((this.file == null) && this.format.equalsIgnoreCase("RM")) {
+                this.file = new File("rm.html");
+            }
         } catch (CmdLineException e) {
             // if something went wrong the help is printed
 
