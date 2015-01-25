@@ -19,7 +19,7 @@ public class ExportFactory {
      * @param format the required name of the format
      * @return an exportable Object depending on the format
      */
-    public Exportable chooseExport(String format) {
+    public static Exportable chooseExport(String format) {
         if (format.equalsIgnoreCase("EER"))
             return new ExportEERDotfile();
         else if(format.equalsIgnoreCase("RM"))

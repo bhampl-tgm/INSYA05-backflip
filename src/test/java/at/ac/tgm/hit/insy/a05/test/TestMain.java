@@ -1,40 +1,87 @@
 package at.ac.tgm.hit.insy.a05.test;
 
 import at.ac.tgm.hit.insy.a05.Main;
-import jdk.nashorn.internal.runtime.ListAdapter;
-import org.apache.logging.log4j.core.LogEvent;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.spi.LoggerContext;
-import org.apache.logging.log4j.test.appender.ListAppender;
+import at.ac.tgm.hit.insy.a05.input.source.MySQLConnection;
+import at.ac.tgm.hit.insy.a05.structur.Database;
+import org.apache.log4j.Logger;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import java.util.List;
-import java.util.logging.Logger;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import static at.ac.tgm.hit.insy.a05.Main.main;
-import static org.junit.Assert.*;
-import org.apache.logging.dumbster.smtp.*;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Martin Kritzl on 21.01.2015.
+ * Tests the Methods of the Main Class.
+ *
+ * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class TestMain {
-//    public InitialLoggerContext init = new InitialLoggerContext("log4j2.xml");
-//
-//    @Test
-//    public void testSomeAwesomeFeature() {
-//        final LoggerContext ctx = init.getContext();
-//        final Logger logger = init.getLogger("org.apache.logging.log4j.my.awesome.test.logger");
-//        final Configuration cfg = init.getConfiguration();
-//        final ListAppender app = init.getListAppender("List");
-//        logger.warn("Test message");
-//        final List<LogEvent> events = app.getEvents();
-//    }
 
-    public void test() {
-        main(new String[]{"-h", "localhost", "-u", "insy4", "-d", "backflip", "-o", "test.html", "-f", "rm"});
+    private Appender testAppender;
+    private Main main;
+    private Connection emptyDatabaseConnection;
 
+    @Before
+    public void initialize() throws SQLException {
+        this.main = new Main();
+        this.testAppender = new Appender();
+        Logger.getRootLogger().addAppender(testAppender);
+
+        this.emptyDatabaseConnection = Mockito.mock(Connection.class);
+        DatabaseMetaData meta = Mockito.mock(DatabaseMetaData.class);
+        ResultSet tables = Mockito.mock(ResultSet.class);
+        Mockito.when(this.emptyDatabaseConnection.getMetaData()).thenReturn(meta);
+        Mockito.when(meta.getTables(null, null, "%", null)).thenReturn(tables).thenReturn(tables);
     }
+
+    @Test
+    public void testConnection() {
+        this.main.getConnection("localhost","backflip", "insy4","blabla");
+        assertTrue(this.testAppender.getLog().size()==0);
+    }
+
+    @Test
+    public void testConnectionFails() {
+        this.main.getConnection("localhost","backflip", "insy4","falsePassword");
+        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("refused"));
+    }
+
+
+    @Test
+    public void testMapping() throws SQLException {
+        this.main.mapDatabase(this.emptyDatabaseConnection);
+        assertTrue(this.testAppender.getLog().size()==0);
+    }
+
+    @Test
+    public void testExpoting() {
+        this.main.export(new Database("test"), new File("./test.html"), "rm");
+        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("success"));
+    }
+
+    @Test
+    public void testfalseConnection() throws SQLException {
+        Mockito.when(this.emptyDatabaseConnection.getMetaData()).thenThrow(SQLException.class);
+        this.main.mapDatabase(this.emptyDatabaseConnection);
+        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("be mapped"));
+    }
+
+    @Test
+    public void testfalseFile() {
+        this.main.export(new Database("test"), new File(""), "rm");
+        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("not created"));
+    }
+
+//    @Test
+//    public void testMain() {
+//        Main.main(new String[]{"-h", "localhost", "-u", "insy4", "-d", "backflip", "-o", "test.html", "-f", "rm"});
+//        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("success"));
+//    }
 }
