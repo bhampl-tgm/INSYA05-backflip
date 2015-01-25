@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 
+def deployNames = 'HamplKritzl_A05'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 version = '0.1'
@@ -35,14 +36,25 @@ dependencies {
 }
 
 //create a single Jar with all dependencies
-task fatJar(type: Jar) {
+task buildJar(type: Jar, dependsOn: [javadoc]) {
     manifest {
         attributes 'Implementation-Title': rootProject.name,
                 'Implementation-Version': version,
                 'Main-Class': 'at.ac.tgm.hit.insy.a05.Main'
     }
-    baseName = project.name + '-all'
+    baseName = deployNames
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     from sourceSets.main.allSource
+    from (javadoc.destinationDir) {
+        into ('doc')
+    }
+    from (projectDir) {
+        include 'doc/**'
+        exclude 'doc/*.docx'
+    }
+    from ('.git') {
+        into ('.git')
+    }
     with jar
 }
+
