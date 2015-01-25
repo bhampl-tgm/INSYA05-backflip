@@ -13,8 +13,11 @@ public class Attribute {
 
     private boolean unique;
 
-    public Attribute(String name) {
+    private Table table;
+
+    public Attribute(String name, Table table) {
         this.name = name;
+        this.table = table;
         this.unique = false;
     }
 
@@ -64,5 +67,13 @@ public class Attribute {
 
     public void setUnique(boolean unique) {
         this.unique = unique;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 }

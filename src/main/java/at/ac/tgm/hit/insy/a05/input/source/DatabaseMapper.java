@@ -52,6 +52,9 @@ public class DatabaseMapper {
          * Creating all Tables and Attributes without any foreign keys
          */
         while(tables.next()) {
+
+            String tempTable = tables.getString("TABLE_NAME");
+
             //Creating a new table
             table = new Table(tables.getString("TABLE_NAME"));
             database.addTable(table);
@@ -61,21 +64,29 @@ public class DatabaseMapper {
             indexInfo = result.getIndexInfo(null, null, table.getName(), true, true);
             //Adding primary keys
             while(pks.next()) {
-                attribute = new Attribute(pks.getString("COLUMN_NAME"));
+                attribute = new Attribute(pks.getString("COLUMN_NAME"), table);
                 table.addPrimaryKey(attribute);
             }
             //Adding attributes
             while(columns.next()) {
-                attribute = new Attribute(columns.getString("COLUMN_NAME"));
+                attribute = new Attribute(columns.getString("COLUMN_NAME"), table);
                 //It will only be added, when the attribute is not a primary key
                 if (!table.getPrimaryKeys().contains(attribute))
                     table.addAttribute(attribute);
             }
             while (indexInfo.next()) {
-                unique = indexInfo.getBoolean("NON_UNIQUE");
-                if (indexInfo.getBoolean("NON_UNIQUE") && indexInfo.getString("COLUMN_NAME").equals(attribute.getName())) {
-                    attribute.setUnique(true);
-                }
+                String tempType = indexInfo.getString("TYPE");
+                unique = !indexInfo.getBoolean("NON_UNIQUE");
+                boolean tempunique = indexInfo.getBoolean("NON_UNIQUE");
+                String tempInfoAttribute = indexInfo.getString("COLUMN_NAME");
+                String tempActAttribute = attribute.getName();
+//                for (Attribute atr : table.getAttributes()) {
+//
+//                }
+//                if (!indexInfo.getBoolean("NON_UNIQUE") && indexInfo.getString("COLUMN_NAME").equals(attribute.getName())) {
+//                    attribute.setUnique(true);
+//                }
+
             }
         }
 

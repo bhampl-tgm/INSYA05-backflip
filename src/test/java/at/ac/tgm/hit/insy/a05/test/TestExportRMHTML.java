@@ -36,18 +36,18 @@ public class TestExportRMHTML {
     public void initialize() {
         this.database = new Database("testDatabase");
         Table planes =  new Table("planes");
-        planes.addPrimaryKey(new Attribute("id"));
-        planes.addAttribute(new Attribute("seats"));
+        planes.addPrimaryKey(new Attribute("id", planes));
+        planes.addAttribute(new Attribute("seats", planes));
 
         Table airlines = new Table("airlines");
-        airlines.addPrimaryKey(new Attribute("id"));
-        airlines.addAttribute(new Attribute("country"));
+        airlines.addPrimaryKey(new Attribute("id", airlines));
+        airlines.addAttribute(new Attribute("country",airlines));
 
         Table flights = new Table("flights");
-        flights.addPrimaryKey(new Attribute("nr"));
-        Attribute airlinePrimary = new Attribute("airline");
+        flights.addPrimaryKey(new Attribute("nr", flights));
+        Attribute airlinePrimary = new Attribute("airline", flights);
         airlinePrimary.setReference(new Reference(airlines, airlines.getPrimaryKey("id")));
-        Attribute planeAttribute = new Attribute("plane");
+        Attribute planeAttribute = new Attribute("plane", flights);
         planeAttribute.setReference(new Reference(planes, planes.getPrimaryKey("id")));
         flights.addPrimaryKey(airlinePrimary);
         flights.addAttribute(planeAttribute);
