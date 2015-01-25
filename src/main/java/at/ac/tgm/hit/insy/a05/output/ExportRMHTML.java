@@ -1,9 +1,9 @@
 package at.ac.tgm.hit.insy.a05.output;
 
-import at.ac.tgm.hit.insy.a05.structur.Attribute;
-import at.ac.tgm.hit.insy.a05.structur.Database;
-import at.ac.tgm.hit.insy.a05.structur.Reference;
-import at.ac.tgm.hit.insy.a05.structur.Table;
+import at.ac.tgm.hit.insy.a05.structure.Attribute;
+import at.ac.tgm.hit.insy.a05.structure.Database;
+import at.ac.tgm.hit.insy.a05.structure.Reference;
+import at.ac.tgm.hit.insy.a05.structure.Table;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -4,8 +4,7 @@ import at.ac.tgm.hit.insy.a05.input.CLI;
 import at.ac.tgm.hit.insy.a05.input.source.ConnectionFactory;
 import at.ac.tgm.hit.insy.a05.input.source.DatabaseMapper;
 import at.ac.tgm.hit.insy.a05.output.ExportFactory;
-import at.ac.tgm.hit.insy.a05.structur.Database;
-import jdk.nashorn.internal.runtime.ListAdapter;
+import at.ac.tgm.hit.insy.a05.structure.Database;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

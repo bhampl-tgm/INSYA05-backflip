@@ -1,4 +1,4 @@
-package at.ac.tgm.hit.insy.a05.structur;
+package at.ac.tgm.hit.insy.a05.structure;
 
 /**
  * Represents an Attribute of a Table and might be a foreign key of another table
@@ -10,6 +10,8 @@ public class Attribute {
     private String name;
 
     private Reference reference;
+
+    private boolean unique;
 
     public Attribute(String name) {
         this.name = name;
@@ -53,5 +55,13 @@ public class Attribute {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    public boolean isUnique() {
+        return unique;
+    }
+
+    public void setUnique(boolean unique) {
+        this.unique = unique;
     }
 }

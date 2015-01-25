@@ -1,9 +1,9 @@
 package at.ac.tgm.hit.insy.a05.test;
 
 import at.ac.tgm.hit.insy.a05.input.source.DatabaseMapper;
-import at.ac.tgm.hit.insy.a05.structur.Attribute;
-import at.ac.tgm.hit.insy.a05.structur.Database;
-import at.ac.tgm.hit.insy.a05.structur.Table;
+import at.ac.tgm.hit.insy.a05.structure.Attribute;
+import at.ac.tgm.hit.insy.a05.structure.Database;
+import at.ac.tgm.hit.insy.a05.structure.Table;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import static org.junit.Assert.*;
 
 /**
- * Tests the Methods of the DatabaseMapper Class and the package structur.
+ * Tests the Methods of the DatabaseMapper Class and the package structure.
  *
  * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */

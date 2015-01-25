@@ -1,15 +1,13 @@
 package at.ac.tgm.hit.insy.a05.test;
 
 import at.ac.tgm.hit.insy.a05.Main;
-import at.ac.tgm.hit.insy.a05.input.source.MySQLConnection;
-import at.ac.tgm.hit.insy.a05.structur.Database;
+import at.ac.tgm.hit.insy.a05.structure.Database;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
