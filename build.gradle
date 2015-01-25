@@ -51,12 +51,14 @@ task runRM(type: JavaExec, dependsOn: ['classes']) {
     main = 'at.ac.tgm.hit.insy.a05.Main'
     classpath = sourceSets.main.runtimeClasspath
     args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/rm.html', '-f', 'RM'
+    standardInput = System.in
 }
 
 task runEER(type: JavaExec, dependsOn: ['classes']) {
     main = 'at.ac.tgm.hit.insy.a05.Main'
     classpath = sourceSets.main.runtimeClasspath
     args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/eer.svg', '-f', 'EER'
+    standardInput = System.in
 }
 
 // Build Jar
