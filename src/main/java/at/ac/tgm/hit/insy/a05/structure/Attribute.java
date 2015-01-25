@@ -65,12 +65,6 @@ public class Attribute {
         this.reference = reference;
     }
 
-
-
-
-
-
-
     public boolean isUnique() {
         return unique;
     }
@@ -81,9 +75,5 @@ public class Attribute {
 
     public Table getTable() {
         return table;
-    }
-
-    public void setTable(Table table) {
-        this.table = table;
     }
 }

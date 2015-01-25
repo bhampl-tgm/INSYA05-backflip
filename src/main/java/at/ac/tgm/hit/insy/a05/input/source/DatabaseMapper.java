@@ -61,6 +61,7 @@ public class DatabaseMapper {
             //Adding primary keys
             while(pks.next()) {
                 attribute = new Attribute(pks.getString("COLUMN_NAME"), table);
+                attribute.setUnique(true);
                 table.addPrimaryKey(attribute);
             }
             //Adding attributes
@@ -114,34 +115,4 @@ public class DatabaseMapper {
         }
         return database;
     }
-
-    /**
-     * Bitte löschen vor der Abgabe!!!!!!!!!!!!!!
-     * Ist zum Visualisieren der erfassten Daten, solange die anderen Outputs noch nicht funktionsfähig sind
-     *
-     */
-
-    public void show(Database database) {
-        System.out.println("Datenbank: " + database.getName());
-        for (Table table : database.getTables()) {
-            System.out.println("\tTabelle: " + table.getName());
-            for (Attribute pk : table.getPrimaryKeys()) {
-                System.out.println("\t\tPrimary Key: " + pk.getName());
-                if (pk.getReference()!=null)
-                    System.out.println("\t\t\tReferenz: " + pk.getReference().getRefAttribute().getName());
-            }
-            for (Attribute attribute : table.getAttributes()) {
-                System.out.println("\t\tAttribut: " + attribute.getName());
-                if (attribute.getReference()!=null)
-                    System.out.println("\t\t\tReferenz: " + attribute.getReference().getRefAttribute().getName());
-            }
-        }
-    }
-
-    public static void main(String[] args) throws SQLException {
-        Connection con = ConnectionFactory.createMySQLConnection("localhost", "backflip", "insy4", "blabla");
-        DatabaseMapper map = new DatabaseMapper(con);
-        map.show(map.executeMapping());
-    }
-
 }
