@@ -8,9 +8,7 @@ import at.ac.tgm.hit.insy.a05.structure.Table;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +17,16 @@ import static org.junit.Assert.*;
  * Created by Martin Kritzl on 24.01.2015.
  */
 public class TestExportRMHTML {
+
+    private static final String beginPK = "<u>";
+
+    private static final String endPK = "</u>";
+
+    private static final String beginFK = "<i>";
+
+    private static final String endFK = "</i>";
+
+    private static final String endAttribute = ", ";
 
     private Database database;
 
@@ -57,11 +65,79 @@ public class TestExportRMHTML {
         this.database.addTable(flights);
     }
 
+
     @Test
     public void testFileExists() throws FileNotFoundException {
         new ExportRMHTML().export(this.database, new File("./test.html"));
         assertTrue(new FileReader("./test.html").toString()!=null);
     }
 
+    @Test(expected=FileNotFoundException.class)
+    public void testFileNotExists() throws FileNotFoundException {
+        new ExportRMHTML().export(this.database, new File(""));
+    }
+
+    @Test
+    public void testTableNames() throws IOException {
+        new ExportRMHTML().export(this.database, new File("./test.html"));
+        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        String line = file.readLine();
+        while (!line.contains("<br />")) {
+            line = file.readLine();
+        }
+        assertTrue(line.contains("planes"));
+        line = file.readLine();
+        assertTrue(line.contains("airlines"));
+        line = file.readLine();
+        assertTrue(line.contains("flights"));
+    }
+
+    @Test
+    public void testAttributes() throws IOException {
+        new ExportRMHTML().export(this.database, new File("./test.html"));
+        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        String line = file.readLine();
+        while (!line.contains("<br />")) {
+            line = file.readLine();
+        }
+        assertTrue(line.contains(endAttribute + "seats"));
+    }
+
+    @Test
+    public void testPrimaryKeys() throws IOException {
+        new ExportRMHTML().export(this.database, new File("./test.html"));
+        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        String line = file.readLine();
+        while (!line.contains("<br />")) {
+            line = file.readLine();
+        }
+        assertTrue(line.contains(beginPK + "id" + endPK));
+    }
+
+    @Test
+    public void testForeignKey() throws IOException {
+        new ExportRMHTML().export(this.database, new File("./test.html"));
+        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        String line = file.readLine();
+        while (!line.contains("<br />")) {
+            line = file.readLine();
+        }
+        file.readLine();
+        line = file.readLine();
+        assertTrue(line.contains(endAttribute + beginFK + "plane:planes.id" + endFK));
+    }
+
+    @Test
+    public void testForeignPrimaryKey() throws IOException {
+        new ExportRMHTML().export(this.database, new File("./test.html"));
+        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        String line = file.readLine();
+        while (!line.contains("<br />")) {
+            line = file.readLine();
+        }
+        file.readLine();
+        line = file.readLine();
+        assertTrue(line.contains(endAttribute + beginPK + beginFK + "airline:airlines.id" + endFK + endPK));
+    }
 
 }
