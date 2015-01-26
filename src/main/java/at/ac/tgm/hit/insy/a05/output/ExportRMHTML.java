@@ -62,7 +62,7 @@ public class ExportRMHTML implements Exportable {
 
     private static final String endFK = "</i>";
 
-    private static final String unique = "&ltUNIQUE&gt;";
+    private static final String unique = "&lt;UNIQUE&gt;";
 
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
