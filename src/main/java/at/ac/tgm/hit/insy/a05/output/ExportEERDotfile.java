@@ -139,17 +139,19 @@ public class ExportEERDotfile implements Exportable {
                     sb.append(ExportEERDotfile.endAttribute);
                     sb.deleteCharAt(sb.length() - 1);
                     sb.append(ExportEERDotfile.endNode);
-                    //TODO :( Fix that
+                    boolean duplicate = false;
+                    duplicateBreak:
                     if (reference.getRefTable().getPrimaryKeys().size() > 1) {
-                        for (Attribute attribute1 : allAttributes) {
-                            if ((!attribute.equals(attribute1)) && attribute.getTable().equals(attribute1.getTable())) {
-                                  for (Attribute attribute2: reference.getRefTable().getPrimaryKeys()) {
-                                      //this.references.contains();
-                                  }
+                        for (Attribute attribute1 : reference.getRefTable().getPrimaryKeys()) {
+                            for (Attribute attribute2 : this.references) {
+                                if (!attribute2.equals(attribute) && attribute2.getReference().getRefAttribute().equals(attribute1)) {
+                                    duplicate = true;
+                                    break duplicateBreak;
+                                }
                             }
                         }
                     }
-                    if (!this.references.contains(attribute) && !this.references.contains(attribute.getReference().getRefAttribute())) {
+                    if (!this.references.contains(attribute) && !this.references.contains(attribute.getReference().getRefAttribute()) && !duplicate) {
                         this.references.add(attribute);
                         this.output.println(sb.toString());
                     }

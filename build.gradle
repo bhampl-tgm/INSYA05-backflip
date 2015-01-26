@@ -10,6 +10,7 @@ def deployNames = 'HamplKritzl_A05'
 def runHostname = 'localhost'
 def runDatabse = 'backflip'
 def runUser = 'backflip'
+def runPassword = 'backflip'
 
 // Other setting
 sourceCompatibility = 1.8
@@ -50,14 +51,14 @@ dependencies {
 task runRM(type: JavaExec, dependsOn: ['classes']) {
     main = 'at.ac.tgm.hit.insy.a05.Main'
     classpath = sourceSets.main.runtimeClasspath
-    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/rm.html', '-f', 'RM'
+    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/rm.html', '-f', 'RM', '-p', runPassword
     standardInput = System.in
 }
 
 task runEER(type: JavaExec, dependsOn: ['classes']) {
     main = 'at.ac.tgm.hit.insy.a05.Main'
     classpath = sourceSets.main.runtimeClasspath
-    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/eer.dot', '-f', 'EER'
+    args '-h', runHostname, '-d', runDatabse, '-u', runUser, '-o', 'build/eer.dot', '-f', 'EER', '-p', runPassword
     standardInput = System.in
 }
 

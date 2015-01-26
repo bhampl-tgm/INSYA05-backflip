@@ -28,6 +28,10 @@ public class ExportRMHTML implements Exportable {
             + System.lineSeparator()
             + "\t<head>"
             + System.lineSeparator()
+            + "\t\t<meta charset='UTF-8'/>"
+            + System.lineSeparator()
+            + "\t\t<title>RM</title>"
+            + System.lineSeparator()
             + "\t</head>"
             + System.lineSeparator()
             + "\t<body>";
