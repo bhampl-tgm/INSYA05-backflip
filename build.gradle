@@ -22,11 +22,6 @@ repositories {
     mavenCentral()
 }
 
-// Setting for code coverage
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-    reportsDir = file("$buildDir/customJacocoReportDir")
-}
 
 jacocoTestReport {
     reports {
@@ -63,7 +58,7 @@ task runEER(type: JavaExec, dependsOn: ['classes']) {
 }
 
 // Build Jar
-task buildJar(type: Jar, dependsOn: ['javadoc']) {
+task buildJar(type: Jar, dependsOn: ['javadoc', 'test']) {
     manifest {
         attributes 'Implementation-Title': rootProject.name,
                 'Implementation-Version': version,
@@ -73,7 +68,10 @@ task buildJar(type: Jar, dependsOn: ['javadoc']) {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     from sourceSets.main.allSource
     from (javadoc.destinationDir) {
-        into ('doc')
+        into ('doc/javadoc')
+    }
+    from (jacocoTestReport.outputs.files) {
+        into ('doc/testReport')
     }
     from (projectDir) {
         include 'doc/**'
