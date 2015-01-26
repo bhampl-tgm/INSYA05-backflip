@@ -5,10 +5,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 
 /**
@@ -42,7 +39,7 @@ public class CLI {
      *
      * @param args the command line arguments
      */
-    public void parseArgs(String[] args) {
+    public void parseArgs(String[] args) throws IllegalArgumentException{
         // initialize a new CmdLineParser with CLI
         CmdLineParser parser = new CmdLineParser(this);
 
@@ -62,12 +59,9 @@ public class CLI {
         } catch (CmdLineException e) {
             // if something went wrong the help is printed
 
-            System.err.println(e.getMessage());
-            System.err.println("java -jar Backflip.jar [options...] arguments...");
-            parser.printUsage(System.err);
-            System.err.println();
-
-            System.exit(1);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            parser.printUsage(out);
+            throw new IllegalArgumentException(e.getMessage() + '\n' + "java -jar Backflip.jar [options...] arguments..." + '\n' + out.toString());
         }
 
         // ask Password with Eclipse/IntelliJ workaround

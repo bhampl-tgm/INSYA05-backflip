@@ -137,7 +137,6 @@ public class TestExportRMHTML {
         }
         file.readLine();
         line = file.readLine();
-        assertTrue(line.contains(endAttribute + beginPK + beginFK + "airline:airlines.id" + endFK + endPK));
+        assertTrue(line.contains(beginPK + beginFK + "airline:airlines.id" + endFK + endPK));
     }
-
 }

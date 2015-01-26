@@ -19,19 +19,28 @@ import java.sql.SQLException;
  * @author Martin Kritzl [mkritzl@student.tgm.ac.at]
  */
 public class Main {
-
-    private static final CLI CLI = new CLI();
+    
     private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
-        Main.CLI.parseArgs(args);
         Main main = new Main();
 
-        Connection connection = main.getConnection(Main.CLI.getHostname(), Main.CLI.getDatabaseName(), Main.CLI.getUser(), Main.CLI.getPassword());
+        CLI cli = main.parse(args);
+        Connection connection = main.getConnection(cli.getHostname(), cli.getDatabaseName(), cli.getUser(), cli.getPassword());
         Database database = main.mapDatabase(connection);
-        main.export(database, Main.CLI.getFile(), Main.CLI.getFormat());
+        main.export(database, cli.getFile(), cli.getFormat());
+    }
 
-
+    public CLI parse(String[] args) {
+        CLI cli = new CLI();
+        try {
+            cli.parseArgs(args);
+            return cli;
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            System.exit(1);
+        }
+        return null;
     }
 
     /**
@@ -48,6 +57,7 @@ public class Main {
             return ConnectionFactory.createMySQLConnection(hostname, database, username, password);
         } catch (SQLException e) {
             logger.error("Connection to the database refused");
+            System.exit(1);
         }
         return null;
     }
@@ -63,6 +73,7 @@ public class Main {
             return new DatabaseMapper(connection).executeMapping();
         } catch (SQLException e) {
             logger.error("Database can not be mapped");
+            System.exit(1);
         }
         return null;
     }

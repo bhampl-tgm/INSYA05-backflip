@@ -45,11 +45,11 @@ public class TestMain {
         assertTrue(this.testAppender.getLog().size()==0);
     }
 
-    @Test
-    public void testConnectionFails() {
-        this.main.getConnection("localhost","backflip", "insy4","falsePassword");
-        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("refused"));
-    }
+//    @Test
+//    public void testConnectionFails() {
+//        this.main.getConnection("localhost","backflip", "insy4","falsePassword");
+//        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("refused"));
+//    }
 
 
     @Test
@@ -65,21 +65,21 @@ public class TestMain {
     }
 
     @Test
-    public void testfalseConnection() throws SQLException {
-        Mockito.when(this.emptyDatabaseConnection.getMetaData()).thenThrow(SQLException.class);
-        this.main.mapDatabase(this.emptyDatabaseConnection);
-        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("be mapped"));
-    }
-
-    @Test
-    public void testfalseFile() {
-        this.main.export(new Database("test"), new File(""), "rm");
-        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("not created"));
+    public void testCLI() {
+        this.main.parse(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-d", "backflip", "-o", "test.html", "-f", "rm", "-p", "blabla"});
+        assertTrue(this.testAppender.getLog().size()==0);
     }
 
 //    @Test
-//    public void testMain() {
-//        Main.main(new String[]{"-h", "localhost", "-u", "insy4", "-d", "backflip", "-o", "test.html", "-f", "rm"});
-//        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("success"));
+//    public void testfalseConnection() throws SQLException {
+//        Mockito.when(this.emptyDatabaseConnection.getMetaData()).thenThrow(SQLException.class);
+//        this.main.mapDatabase(this.emptyDatabaseConnection);
+//        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("be mapped"));
+//    }
+//
+//    @Test
+//    public void testfalseFile() {
+//        this.main.export(new Database("test"), new File(""), "rm");
+//        assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("not created"));
 //    }
 }
