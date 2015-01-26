@@ -34,6 +34,7 @@ public class CLI {
     @Option(name = "-f", usage = "specify output formant [EER | RM]", required = true)
     private String format;
 
+    @Option(name = "-p", usage = "specify password for login")
     private String password;
 
     /**
@@ -51,8 +52,8 @@ public class CLI {
 
             // checks if the order direction is valid
             if (!this.format.equalsIgnoreCase("EER") && !this.format.equalsIgnoreCase("RM"));
-                //TODO exception for invalid input
-                //throw new CmdLineException(parser, Messages.NO_SORT_TYPE, this.format);
+            //TODO exception for invalid input
+            //throw new CmdLineException(parser, Messages.NO_SORT_TYPE, this.format);
             if ((this.file == null) && this.format.equalsIgnoreCase("EER")) {
                 this.file = new File("eer.dot");
             } else if ((this.file == null) && this.format.equalsIgnoreCase("RM")) {
@@ -70,19 +71,20 @@ public class CLI {
         }
 
         // ask Password with Eclipse/IntelliJ workaround
-        if (System.console() == null) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    System.in));
-            System.out.print("Enter password:");
-            try {
-                this.password = reader.readLine();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-                System.exit(1);
+        if (this.password==null)
+            if (System.console() == null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        System.in));
+                System.out.print("Enter password:");
+                try {
+                    this.password = reader.readLine();
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                    System.exit(1);
+                }
+            } else {
+                this.password = new String(System.console().readPassword("Enter password:"));
             }
-        } else {
-            this.password = new String(System.console().readPassword("Enter password:"));
-        }
     }
 
     /**
