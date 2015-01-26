@@ -54,11 +54,18 @@ public class ExportEERDotfile implements Exportable {
 
     private final static String startConnection = "\t";
 
+    private final static String startCardinality = " [label=\"";
+
+    private final static String endCardinality = "\"]";
+    // ,len=1.00
+    private static final String unique = "&ltUNIQUE&gt;";
+
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
         this.database = database;
         this.output = new PrintWriter(file);
         this.references = new ArrayList<Attribute>();
+
         this.output.println(ExportEERDotfile.startER);
         this.printTables();
         this.printAttributes();
@@ -69,13 +76,17 @@ public class ExportEERDotfile implements Exportable {
         this.printConnections();
 
         this.output.println(ExportEERDotfile.endER);
-
         this.close();
     }
 
+    /**
+     * Prints all attributes (primary keys and attributes but not references)
+     */
     private void printAttributes() {
         this.output.println(ExportEERDotfile.startAttributes);
         for (Table table : this.database.getTables()) {
+
+            // print all primary keys
             for (Attribute attribute : table.getPrimaryKeys()) {
                 if (attribute.getReference() == null) {
                     this.output.print(ExportEERDotfile.startNodeLablePK);
@@ -88,6 +99,7 @@ public class ExportEERDotfile implements Exportable {
                 }
             }
 
+            // print all attributes
             for (Attribute attribute : table.getAttributes()) {
                 if (attribute.getReference() == null) {
                     this.output.print(ExportEERDotfile.startNodeLableNormal);
@@ -102,6 +114,9 @@ public class ExportEERDotfile implements Exportable {
         }
     }
 
+    /**
+     * Prints all connections between attributes and tables
+     */
     private void printAttributesToTables() {
         for (Table table : this.database.getTables()) {
             List<Attribute> allAttributes = new ArrayList<Attribute>();
@@ -120,6 +135,9 @@ public class ExportEERDotfile implements Exportable {
         }
     }
 
+    /**
+     * Prints all references
+     */
     private void printReferences() {
         this.output.println(ExportEERDotfile.startReference);
         for (Table table : this.database.getTables()) {
@@ -140,6 +158,8 @@ public class ExportEERDotfile implements Exportable {
                     sb.deleteCharAt(sb.length() - 1);
                     sb.append(ExportEERDotfile.endNode);
                     boolean duplicate = false;
+
+                    // checks if the table gets more then one key form a other table
                     duplicateBreak:
                     if (reference.getRefTable().getPrimaryKeys().size() > 1) {
                         for (Attribute attribute1 : reference.getRefTable().getPrimaryKeys()) {
@@ -160,7 +180,11 @@ public class ExportEERDotfile implements Exportable {
         }
     }
 
+    /**
+     * Prints all connections between references
+     */
     private void printConnections() {
+        //TODO add Cardinality
         for (Attribute attribute : this.references) {
             this.output.print(ExportEERDotfile.startConnection);
             this.output.print(attribute.getTable().getName());
@@ -169,6 +193,23 @@ public class ExportEERDotfile implements Exportable {
             this.output.print(attribute.getName());
             this.output.print(attribute.getReference().getRefTable().getName());
             this.output.print(attribute.getReference().getRefAttribute().getName());
+            this.output.print(ExportEERDotfile.startCardinality);
+
+            // prints Cardinality
+            //TODO Cardinality: HERE!
+            char refCardinality;
+            if (false) {
+                output.print("n");
+                refCardinality = 'm';
+            } else if (attribute.isUnique()) {
+                output.print("1");
+                refCardinality = '1';
+            } else {
+                output.print("n");
+                refCardinality = '1';
+            }
+
+            this.output.print(ExportEERDotfile.endCardinality);
             this.output.println(ExportEERDotfile.endAttribute);
 
             this.output.print(ExportEERDotfile.startConnection);
@@ -178,10 +219,17 @@ public class ExportEERDotfile implements Exportable {
             this.output.print(attribute.getName());
             this.output.print(attribute.getReference().getRefTable().getName());
             this.output.print(attribute.getReference().getRefAttribute().getName());
+            this.output.print(ExportEERDotfile.startCardinality);
+            this.output.print(refCardinality);
+
+            this.output.print(ExportEERDotfile.endCardinality);
             this.output.println(ExportEERDotfile.endAttribute);
         }
     }
 
+    /**
+     * Prints all tables
+     */
     private void printTables() {
         this.output.print(ExportEERDotfile.startTables);
         for (Table table : this.database.getTables()) {

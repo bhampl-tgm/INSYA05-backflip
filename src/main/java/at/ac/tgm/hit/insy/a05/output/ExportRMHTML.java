@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 /**
  * Exports a Database to a file in HTML format
  *
- * @version 0.1
  * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
+ * @version 0.1
  * @see at.ac.tgm.hit.insy.a05.output.Exportable
  */
 public class ExportRMHTML implements Exportable {
@@ -62,10 +62,13 @@ public class ExportRMHTML implements Exportable {
 
     private static final String endFK = "</i>";
 
+    private static final String unique = "&ltUNIQUE&gt;";
+
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
         this.database = database;
         this.output = new PrintWriter(file);
+
         output.println(ExportRMHTML.beginHTML);
         this.printAll();
 
@@ -77,9 +80,13 @@ public class ExportRMHTML implements Exportable {
         StringBuilder sb;
         for (Table table : this.database.getTables()) {
             sb = new StringBuilder();
+
+            // print beginning of line
             sb.append(ExportRMHTML.beginTable);
             sb.append(table.getName());
             sb.append(ExportRMHTML.beginAttributes);
+
+            // print primary keys
             for (Attribute attribute : table.getPrimaryKeys()) {
                 Reference reference = attribute.getReference();
                 if (reference == null) {
@@ -94,19 +101,27 @@ public class ExportRMHTML implements Exportable {
                     sb.append(ExportRMHTML.endAttribute);
                 }
             }
+
+            // print other attribute
             for (Attribute attribute : table.getAttributes()) {
                 if (attribute.getReference() == null) {
                     sb.append(attribute.getName());
+                    if (attribute.isUnique()) sb.append(ExportRMHTML.unique);
                     sb.append(ExportRMHTML.endAttribute);
                 }
             }
+
+            // print foreign keys
             for (Attribute attribute : table.getAttributes()) {
                 Reference reference = attribute.getReference();
                 if (reference != null) {
                     this.printFK(sb, attribute, reference);
+                    if (attribute.isUnique()) sb.append(ExportRMHTML.unique);
                     sb.append(ExportRMHTML.endAttribute);
                 }
             }
+
+            // print end of line
             sb.deleteCharAt(sb.length() - 1);
             sb.deleteCharAt(sb.length() - 1);
             sb.append(ExportRMHTML.endAttributes);
