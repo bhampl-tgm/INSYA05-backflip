@@ -17,7 +17,7 @@ public interface DatabaseConnection {
      * @param username the username
      * @param password the password of the user
      * @return The connection to the database
-     * @throws SQLException
+     * @throws SQLException if the connection fails with the given Parameters.
      */
     public Connection createConnection(String hostname, String database, String username, String password) throws SQLException;
 }

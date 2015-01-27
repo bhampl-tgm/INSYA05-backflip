@@ -16,7 +16,8 @@ public class ConnectionFactory {
      * @param username the username
      * @param password the password of the user
      * @return the connection to the database
-     * @throws SQLException
+     * @throws SQLException if the connection to the MySQL-Database fails with the given Parameters.
+     *
      */
     public static Connection createMySQLConnection(String hostname, String database, String username, String password) throws SQLException {
         return new MySQLConnection().createConnection(hostname,database,username,password);

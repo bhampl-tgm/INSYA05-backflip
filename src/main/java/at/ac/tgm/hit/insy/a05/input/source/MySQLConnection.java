@@ -20,7 +20,7 @@ public class MySQLConnection implements DatabaseConnection {
      * @param username the username
      * @param password the password of the user
      * @return Connection to the MySQL Database
-     * @throws SQLException
+     * @throws SQLException if the connection to the MySQL-Database fails with the given Parameters.
      */
     public Connection createConnection(String hostname, String database, String username, String password) throws SQLException {
         MysqlDataSource dataSource = new MysqlDataSource();

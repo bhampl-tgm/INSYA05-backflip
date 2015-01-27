@@ -28,7 +28,7 @@ public class DatabaseMapper {
      * Creates a object-oriented structure of the Database
      *
      * @return Created Database
-     * @throws SQLException
+     * @throws SQLException if the connection fails with.
      */
     public Database executeMapping() throws SQLException {
         //Creates a new database object
