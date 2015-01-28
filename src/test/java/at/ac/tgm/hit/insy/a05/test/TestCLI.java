@@ -72,9 +72,13 @@ public class TestCLI {
         assertEquals("eer.dot", this.cli.getFile().getPath());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testWrongArguments() {
+        this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-f", "eer", "-p", "blabla"});
+    }
+
 //    @Test(expected = IllegalArgumentException.class)
-//    public void testWrongArguments() {
-//        this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-f", "eer", "-p", "blabla"});
-//        assertEquals("eer.dot", this.cli.getFile().getPath());
+//    public void testWrongFormat() {
+//        this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4",  "-d", "backflip", "-f", "falseFormat", "-p", "blabla"});
 //    }
 }

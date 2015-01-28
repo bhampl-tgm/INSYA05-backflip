@@ -4,6 +4,7 @@ package at.ac.tgm.hit.insy.a05.input;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.Messages;
 
 import java.io.*;
 
@@ -48,9 +49,8 @@ public class CLI {
             parser.parseArgument(args);
 
             // checks if the order direction is valid
-            if (!this.format.equalsIgnoreCase("EER") && !this.format.equalsIgnoreCase("RM"));
-            //TODO exception for invalid input
-            //throw new CmdLineException(parser, Messages.NO_SORT_TYPE, this.format);
+            if (!this.format.equalsIgnoreCase("EER") && !this.format.equalsIgnoreCase("RM"))
+                throw new CmdLineException(parser, Messages.ILLEGAL_OPERAND, this.format);
             if ((this.file == null) && this.format.equalsIgnoreCase("EER")) {
                 this.file = new File("eer.dot");
             } else if ((this.file == null) && this.format.equalsIgnoreCase("RM")) {

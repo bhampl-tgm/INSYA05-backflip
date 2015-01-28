@@ -30,5 +30,4 @@ public class MySQLConnection implements DatabaseConnection {
         dataSource.setPassword(password);
         return dataSource.getConnection();
     }
-
 }

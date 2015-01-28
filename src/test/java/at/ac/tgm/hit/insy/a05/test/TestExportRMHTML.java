@@ -68,8 +68,8 @@ public class TestExportRMHTML {
 
     @Test
     public void testFileExists() throws FileNotFoundException {
-        new ExportRMHTML().export(this.database, new File("./test.html"));
-        assertTrue(new FileReader("./test.html").toString()!=null);
+        new ExportRMHTML().export(this.database, new File(TestMain.TESTPATH + "test.html"));
+        assertTrue(new FileReader(TestMain.TESTPATH + "test.html").toString()!=null);
     }
 
     @Test(expected=FileNotFoundException.class)
@@ -79,8 +79,8 @@ public class TestExportRMHTML {
 
     @Test
     public void testTableNames() throws IOException {
-        new ExportRMHTML().export(this.database, new File("./test.html"));
-        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        new ExportRMHTML().export(this.database, new File(TestMain.TESTPATH + "test.html"));
+        BufferedReader file = new BufferedReader(new FileReader(TestMain.TESTPATH + "test.html"));
         String line = file.readLine();
         while (!line.contains("<br />")) {
             line = file.readLine();
@@ -94,8 +94,8 @@ public class TestExportRMHTML {
 
     @Test
     public void testAttributes() throws IOException {
-        new ExportRMHTML().export(this.database, new File("./test.html"));
-        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        new ExportRMHTML().export(this.database, new File(TestMain.TESTPATH + "test.html"));
+        BufferedReader file = new BufferedReader(new FileReader(TestMain.TESTPATH + "test.html"));
         String line = file.readLine();
         while (!line.contains("<br />")) {
             line = file.readLine();
@@ -105,8 +105,8 @@ public class TestExportRMHTML {
 
     @Test
     public void testPrimaryKeys() throws IOException {
-        new ExportRMHTML().export(this.database, new File("./test.html"));
-        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        new ExportRMHTML().export(this.database, new File(TestMain.TESTPATH + "test.html"));
+        BufferedReader file = new BufferedReader(new FileReader(TestMain.TESTPATH + "test.html"));
         String line = file.readLine();
         while (!line.contains("<br />")) {
             line = file.readLine();
@@ -116,8 +116,8 @@ public class TestExportRMHTML {
 
     @Test
     public void testForeignKey() throws IOException {
-        new ExportRMHTML().export(this.database, new File("./test.html"));
-        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        new ExportRMHTML().export(this.database, new File(TestMain.TESTPATH + "test.html"));
+        BufferedReader file = new BufferedReader(new FileReader(TestMain.TESTPATH + "test.html"));
         String line = file.readLine();
         while (!line.contains("<br />")) {
             line = file.readLine();
@@ -129,8 +129,8 @@ public class TestExportRMHTML {
 
     @Test
     public void testForeignPrimaryKey() throws IOException {
-        new ExportRMHTML().export(this.database, new File("./test.html"));
-        BufferedReader file = new BufferedReader(new FileReader("./test.html"));
+        new ExportRMHTML().export(this.database, new File(TestMain.TESTPATH + "test.html"));
+        BufferedReader file = new BufferedReader(new FileReader(TestMain.TESTPATH + "test.html"));
         String line = file.readLine();
         while (!line.contains("<br />")) {
             line = file.readLine();

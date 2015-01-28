@@ -25,6 +25,7 @@ public class TestMain {
     private Appender testAppender;
     private Main main;
     private Connection emptyDatabaseConnection;
+    public static final String TESTPATH = "." + File.separator + "build" + File.separator;
 
     @Before
     public void initialize() throws SQLException {
@@ -60,7 +61,7 @@ public class TestMain {
 
     @Test
     public void testExpoting() {
-        this.main.export(new Database("test"), new File("./test.html"), "rm");
+        this.main.export(new Database("test"), new File(TESTPATH + "test.html"), "rm");
         assertTrue(this.testAppender.getLog().get(0).getMessage().toString().contains("success"));
     }
 

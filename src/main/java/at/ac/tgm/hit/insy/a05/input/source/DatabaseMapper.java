@@ -63,6 +63,7 @@ public class DatabaseMapper {
                 attribute = new Attribute(pks.getString("COLUMN_NAME"), table);
                 attribute.setUnique(true);
                 table.addPrimaryKey(attribute);
+//                if (!pks.getBoolean("NULLABLE")) System.out.println("NULL");
             }
             //Adding attributes
             while(columns.next()) {
