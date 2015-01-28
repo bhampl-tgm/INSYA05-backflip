@@ -5,10 +5,7 @@ import at.ac.tgm.hit.insy.a05.structure.Database;
 import at.ac.tgm.hit.insy.a05.structure.Reference;
 import at.ac.tgm.hit.insy.a05.structure.Table;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Creates a object-oriented structure of the Database from the given Connection
@@ -43,21 +40,23 @@ public class DatabaseMapper {
         ResultSet columns;
         ResultSet pks;
         ResultSet foreign;
-        Attribute attribute = null;
+        Attribute attribute;
 
         boolean unique;
+
+        int i = 1;
 
         /**
          * Creating all Tables and Attributes without any foreign keys
          */
         while(tables.next()) {
-
             //Creating a new table
             table = new Table(tables.getString("TABLE_NAME"));
             database.addTable(table);
             //Receive all attributes and primary keys from the table
             columns = result.getColumns(null, null, table.getName(), null);
             pks = result.getPrimaryKeys(null, null, table.getName());
+
             //Adding primary keys
             while(pks.next()) {
                 attribute = new Attribute(pks.getString("COLUMN_NAME"), table);
@@ -65,12 +64,16 @@ public class DatabaseMapper {
                 table.addPrimaryKey(attribute);
 //                if (!pks.getBoolean("NULLABLE")) System.out.println("NULL");
             }
+
             //Adding attributes
+
             while(columns.next()) {
+                //System.out.println("Field" + i + ": " + columns.getMetaData().isNullable(i));
                 attribute = new Attribute(columns.getString("COLUMN_NAME"), table);
                 //It will only be added, when the attribute is not a primary key
                 if (!table.getPrimaryKeys().contains(attribute))
                     table.addAttribute(attribute);
+                i++;
             }
         }
 
