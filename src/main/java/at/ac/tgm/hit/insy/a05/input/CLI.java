@@ -17,22 +17,22 @@ import java.io.*;
  */
 public class CLI {
 
-    @Option(name = "-h", usage = "specify server hostname")
+    @Option(name = "-h", usage = "specify server hostname (default: localhost)")
     private String hostname = "localhost";
 
-    @Option(name = "-u", usage = "specify username for login")
+    @Option(name = "-u", usage = "specify username for login (default: username of os)")
     private String user = System.getProperty("user.name");
 
-    @Option(name = "-d", usage = "specify database to use", required = true)
+    @Option(name = "-d", usage = "specify database to use (required)", required = true)
     private String databaseName;
 
     @Option(name = "-o", usage = "specify output file (default: EER: eer.dot, RM: rm.html)")
     private File file;
 
-    @Option(name = "-f", usage = "specify output formant [EER | RM]", required = true)
+    @Option(name = "-f", usage = "specify output formant [EER | RM] (required)", required = true)
     private String format;
 
-    @Option(name = "-p", usage = "specify password for login")
+    @Option(name = "-p", usage = "specify password for login (default: password prompt)")
     private String password;
 
     /**

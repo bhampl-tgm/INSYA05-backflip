@@ -64,6 +64,8 @@ public class ExportRMHTML implements Exportable {
 
     private static final String unique = "&lt;UNIQUE&gt;";
 
+    private static final String notNull = "&lt;NOT NULL&gt;";
+
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
         this.database = database;
@@ -107,6 +109,8 @@ public class ExportRMHTML implements Exportable {
                 if (attribute.getReference() == null) {
                     sb.append(attribute.getName());
                     if (attribute.isUnique()) sb.append(ExportRMHTML.unique);
+                    // TODO Print not null
+                    if (false) sb.append(ExportRMHTML.notNull);
                     sb.append(ExportRMHTML.endAttribute);
                 }
             }
@@ -117,6 +121,8 @@ public class ExportRMHTML implements Exportable {
                 if (reference != null) {
                     this.printFK(sb, attribute, reference);
                     if (attribute.isUnique()) sb.append(ExportRMHTML.unique);
+                    // TODO Print not null
+                    if (false) sb.append(ExportRMHTML.notNull);
                     sb.append(ExportRMHTML.endAttribute);
                 }
             }

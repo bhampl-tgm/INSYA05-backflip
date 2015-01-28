@@ -9,8 +9,8 @@ def deployNames = 'HamplKritzl_A05'
 // Run settings
 def runHostname = 'localhost'
 def runDatabse = 'backflip'
-def runUser = 'backflip'
-def runPassword = 'backflip'
+def runUser = 'insy4'
+def runPassword = 'blabla'
 
 // Other setting
 sourceCompatibility = 1.8
@@ -22,6 +22,10 @@ repositories {
     mavenCentral()
 }
 
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
 
 jacocoTestReport {
     reports {
@@ -71,6 +75,9 @@ task buildJar(type: Jar, dependsOn: ['javadoc', 'test']) {
         into ('doc/javadoc')
     }
     from (jacocoTestReport.outputs.files) {
+        into ('doc/testCoverage')
+    }
+    from (test.outputs.files) {
         into ('doc/testReport')
     }
     from (projectDir) {
