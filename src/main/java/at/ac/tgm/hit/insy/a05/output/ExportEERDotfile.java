@@ -58,7 +58,7 @@ public class ExportEERDotfile implements Exportable {
 
     private final static String endCardinality = "\"]";
     // ,len=1.00
-    private static final String unique = "&ltUNIQUE&gt;";
+    private static final String notNull = "&lt;NOT NULL&gt;";
 
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
@@ -104,6 +104,7 @@ public class ExportEERDotfile implements Exportable {
                 if (attribute.getReference() == null) {
                     this.output.print(ExportEERDotfile.startNodeLableNormal);
                     this.output.print(attribute.getName());
+                    if (attribute.isNotNull()) this.output.print(ExportEERDotfile.notNull);
                     this.output.print(ExportEERDotfile.endLableNormal);
                     this.output.print(table.getName());
                     this.output.print(attribute.getName());

@@ -109,8 +109,7 @@ public class ExportRMHTML implements Exportable {
                 if (attribute.getReference() == null) {
                     sb.append(attribute.getName());
                     if (attribute.isUnique()) sb.append(ExportRMHTML.unique);
-                    // TODO Print not null
-                    if (false) sb.append(ExportRMHTML.notNull);
+                    if (attribute.isNotNull()) sb.append(ExportRMHTML.notNull);
                     sb.append(ExportRMHTML.endAttribute);
                 }
             }
@@ -121,8 +120,7 @@ public class ExportRMHTML implements Exportable {
                 if (reference != null) {
                     this.printFK(sb, attribute, reference);
                     if (attribute.isUnique()) sb.append(ExportRMHTML.unique);
-                    // TODO Print not null
-                    if (false) sb.append(ExportRMHTML.notNull);
+                    if (attribute.isNotNull()) sb.append(ExportRMHTML.notNull);
                     sb.append(ExportRMHTML.endAttribute);
                 }
             }
