@@ -77,8 +77,8 @@ public class TestCLI {
         this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-f", "eer", "-p", "blabla"});
     }
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testWrongFormat() {
-//        this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4",  "-d", "backflip", "-f", "falseFormat", "-p", "blabla"});
-//    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testWrongFormat() {
+        this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4",  "-d", "backflip", "-f", "falseFormat", "-p", "blabla"});
+    }
 }

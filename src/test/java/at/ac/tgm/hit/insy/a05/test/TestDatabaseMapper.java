@@ -255,4 +255,9 @@ public class TestDatabaseMapper {
     public void testNotNull() {
         assertTrue(this.database.getTable("airlines").getAttribute("land").isNotNull());
     }
+
+    @Test
+    public void tesIsNullable() {
+        assertFalse(this.database.getTable("planes").getAttribute("seats").isNotNull());
+    }
 }

@@ -35,12 +35,11 @@ public class Main {
         CLI cli = new CLI();
         try {
             cli.parseArgs(args);
-            return cli;
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
             System.exit(1);
         }
-        return null;
+        return cli;
     }
 
     /**
@@ -53,13 +52,14 @@ public class Main {
      * @return Created Connection to a MySQL Database
      */
     public Connection getConnection(String hostname, String database, String username, String password) {
+        Connection connection = null;
         try {
-            return ConnectionFactory.createMySQLConnection(hostname, database, username, password);
+            connection = ConnectionFactory.createMySQLConnection(hostname, database, username, password);
         } catch (SQLException e) {
             logger.error("Connection to the database refused");
             System.exit(1);
         }
-        return null;
+        return connection;
     }
 
     /**
@@ -69,13 +69,14 @@ public class Main {
      * @return The mapped database
      */
     public Database mapDatabase(Connection connection) {
+        Database database=null;
         try {
-            return new DatabaseMapper(connection).executeMapping();
+            database = new DatabaseMapper(connection).executeMapping();
         } catch (SQLException e) {
             logger.error("Database can not be mapped");
             System.exit(1);
         }
-        return null;
+        return database;
     }
 
     /**
@@ -91,6 +92,7 @@ public class Main {
             logger.info("The file was successfully created under " + output.getPath());
         } catch (FileNotFoundException e) {
             logger.error("The file can not created under " + output.getPath());
+            System.exit(1);
         }
     }
 }
