@@ -8,10 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static org.junit.Assert.*;
 
@@ -39,6 +36,9 @@ public class TestDatabaseMapper {
         //Initialize Mock Objects
         Connection con = Mockito.mock(Connection.class);
         DatabaseMetaData meta = Mockito.mock(DatabaseMetaData.class);
+        ResultSetMetaData planesMetaData = Mockito.mock(ResultSetMetaData.class);
+        ResultSetMetaData flightsMetaData = Mockito.mock(ResultSetMetaData.class);
+        ResultSetMetaData airlinesMetaData = Mockito.mock(ResultSetMetaData.class);
         ResultSet tables = Mockito.mock(ResultSet.class);
         ResultSet columnsPlane = Mockito.mock(ResultSet.class);
         ResultSet pksPlane = Mockito.mock(ResultSet.class);
@@ -58,6 +58,35 @@ public class TestDatabaseMapper {
         Mockito.when(con.getMetaData()).thenReturn(meta);
         Mockito.when(con.getCatalog()).thenReturn("MyDatabase");
         Mockito.when(meta.getTables(null, null, "%", null)).thenReturn(tables).thenReturn(tables);
+
+        Statement statement = Mockito.mock(Statement.class);
+        ResultSet planesQuery = Mockito.mock(ResultSet.class);
+        ResultSet flightsQuery = Mockito.mock(ResultSet.class);
+        ResultSet airlinesQuery = Mockito.mock(ResultSet.class);
+
+        Mockito.when(con.createStatement()).thenReturn(statement);
+
+        Mockito.when(statement.executeQuery("SELECT * FROM planes")).thenReturn(planesQuery);
+        Mockito.when(statement.executeQuery("SELECT * FROM flights")).thenReturn(flightsQuery);
+        Mockito.when(statement.executeQuery("SELECT * FROM airlines")).thenReturn(airlinesQuery);
+
+        Mockito.when(planesQuery.getMetaData()).thenReturn(planesMetaData);
+        Mockito.when(flightsQuery.getMetaData()).thenReturn(flightsMetaData);
+        Mockito.when(airlinesQuery.getMetaData()).thenReturn(airlinesMetaData);
+
+//        Mockito.when(con.createStatement().executeQuery("SELECT * FROM planes").getMetaData()).thenReturn(planesMetaData);
+//        Mockito.when(con.createStatement().executeQuery("SELECT * FROM flights").getMetaData()).thenReturn(flightsMetaData);
+//        Mockito.when(con.createStatement().executeQuery("SELECT * FROM airlines").getMetaData()).thenReturn(airlinesMetaData);
+
+        Mockito.when(planesMetaData.isNullable(1)).thenReturn(ResultSetMetaData.columnNoNulls);
+        Mockito.when(planesMetaData.isNullable(2)).thenReturn(ResultSetMetaData.columnNullable);
+
+        Mockito.when(flightsMetaData.isNullable(1)).thenReturn(ResultSetMetaData.columnNoNulls);
+        Mockito.when(flightsMetaData.isNullable(2)).thenReturn(ResultSetMetaData.columnNullable);
+        Mockito.when(flightsMetaData.isNullable(3)).thenReturn(ResultSetMetaData.columnNullable);
+
+        Mockito.when(airlinesMetaData.isNullable(1)).thenReturn(ResultSetMetaData.columnNoNulls);
+        Mockito.when(airlinesMetaData.isNullable(2)).thenReturn(ResultSetMetaData.columnNoNulls);
 
         //Prepare tables
         Mockito.when(tables.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false)
@@ -220,5 +249,10 @@ public class TestDatabaseMapper {
     @Test
      public void testGetTableFromAttribute() {
         assertFalse(this.database.getTable("planes").getAttribute("seats").getTable().equals("planes"));
+    }
+
+    @Test
+    public void testNotNull() {
+        assertTrue(this.database.getTable("airlines").getAttribute("land").isNotNull());
     }
 }
