@@ -10,10 +10,7 @@ import org.junit.contrib.java.lang.system.Assertion;
 import org.mockito.Mockito;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -96,13 +93,13 @@ public class TestMain {
 
     @Test
     public void testfalseConnection() throws SQLException {
-        Mockito.when(this.emptyDatabaseConnection.getMetaData()).thenThrow(SQLException.class);
         exit.expectSystemExitWithStatus(1);
         exit.checkAssertionAfterwards(new Assertion() {
             public void checkAssertion() {
                 assertTrue(TestMain.testAppender.getLog().get(0).getMessage().toString().contains("be mapped"));
             }
         });
+        Mockito.when(this.emptyDatabaseConnection.getMetaData()).thenThrow(new SQLException());
         this.main.mapDatabase(this.emptyDatabaseConnection);
     }
 

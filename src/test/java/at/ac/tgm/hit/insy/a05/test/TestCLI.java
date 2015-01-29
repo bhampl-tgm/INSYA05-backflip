@@ -50,7 +50,7 @@ public class TestCLI {
 
     @Test
     public void testFormatEER() {
-        this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-d", "backflip", "-o", "test.html", "-f", "eer", "-p", "blabla"});
+        this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-d", "backflip", "-o", "test.dot", "-f", "eer", "-p", "blabla"});
         assertEquals("eer", this.cli.getFormat());
     }
 
