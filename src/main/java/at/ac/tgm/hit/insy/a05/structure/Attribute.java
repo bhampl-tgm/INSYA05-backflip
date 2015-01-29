@@ -13,6 +13,8 @@ public class Attribute {
 
     private boolean unique;
 
+    private boolean notNull;
+
     private Table table;
 
 
@@ -51,6 +53,7 @@ public class Attribute {
         this.name = name;
         this.table = table;
         this.unique = false;
+        this.notNull = false;
     }
 
     public String getName() {
@@ -75,5 +78,13 @@ public class Attribute {
 
     public Table getTable() {
         return table;
+    }
+
+    public boolean isNotNull() {
+        return notNull;
+    }
+
+    public void setNotNull(boolean notNull) {
+        this.notNull = notNull;
     }
 }

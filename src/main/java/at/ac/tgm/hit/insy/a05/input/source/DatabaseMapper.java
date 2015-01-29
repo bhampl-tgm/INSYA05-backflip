@@ -41,6 +41,7 @@ public class DatabaseMapper {
         ResultSet pks;
         ResultSet foreign;
         Attribute attribute;
+        ResultSetMetaData tableMetaData;
 
         boolean unique;
 
@@ -57,6 +58,8 @@ public class DatabaseMapper {
             columns = result.getColumns(null, null, table.getName(), null);
             pks = result.getPrimaryKeys(null, null, table.getName());
 
+            tableMetaData = connection.createStatement().executeQuery("SELECT * FROM " + table.getName()).getMetaData();
+
             //Adding primary keys
             while(pks.next()) {
                 attribute = new Attribute(pks.getString("COLUMN_NAME"), table);
@@ -66,13 +69,16 @@ public class DatabaseMapper {
             }
 
             //Adding attributes
-
+            i=1;
             while(columns.next()) {
                 //System.out.println("Field" + i + ": " + columns.getMetaData().isNullable(i));
                 attribute = new Attribute(columns.getString("COLUMN_NAME"), table);
                 //It will only be added, when the attribute is not a primary key
-                if (!table.getPrimaryKeys().contains(attribute))
+                if (!table.getPrimaryKeys().contains(attribute)) {
                     table.addAttribute(attribute);
+                    if (tableMetaData.isNullable(i) == ResultSetMetaData.columnNoNulls)
+                        attribute.setNotNull(true);
+                }
                 i++;
             }
         }
