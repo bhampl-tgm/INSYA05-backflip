@@ -18,10 +18,7 @@ import java.io.PrintWriter;
  */
 public class ExportRMHTML implements Exportable {
 
-
-    private PrintWriter output;
-    private Database database;
-
+    private static final String defaultFileName = "rm.html";
     private static final String beginHTML = "<!DOCTYPE html>"
             + System.lineSeparator()
             + "<html>"
@@ -35,36 +32,24 @@ public class ExportRMHTML implements Exportable {
             + "\t</head>"
             + System.lineSeparator()
             + "\t<body>";
-
     private static final String endHTML = "\t</body>"
             + System.lineSeparator()
             + "</html>";
-
     private static final String beginAttributes = "(";
-
     private static final String endAttributes = ")";
-
     private static final String beginTable = "\t\t";
-
     private static final String beginPK = "<u>";
-
     private static final String endPK = "</u>";
-
     private static final String endAttribute = ", ";
-
     private static final String endLine = "<br />";
-
     private static final String refTableSeperator = ".";
-
     private static final String localNameSeperator = ":";
-
     private static final String beginFK = "<i>";
-
     private static final String endFK = "</i>";
-
     private static final String unique = "&lt;UNIQUE&gt;";
-
     private static final String notNull = "&lt;NOT NULL&gt;";
+    private PrintWriter output;
+    private Database database;
 
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
@@ -76,6 +61,11 @@ public class ExportRMHTML implements Exportable {
 
         output.println(ExportRMHTML.endHTML);
         this.close();
+    }
+
+    @Override
+    public String getDefaultFileName() {
+        return ExportRMHTML.defaultFileName;
     }
 
     private void printAll() {
