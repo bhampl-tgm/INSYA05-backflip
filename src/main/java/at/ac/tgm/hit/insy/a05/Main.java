@@ -4,6 +4,7 @@ import at.ac.tgm.hit.insy.a05.input.CLI;
 import at.ac.tgm.hit.insy.a05.input.source.ConnectionFactory;
 import at.ac.tgm.hit.insy.a05.input.source.DatabaseMapper;
 import at.ac.tgm.hit.insy.a05.output.ExportFactory;
+import at.ac.tgm.hit.insy.a05.output.Exportable;
 import at.ac.tgm.hit.insy.a05.structure.Database;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -86,9 +87,9 @@ public class Main {
      * @param output The destination of a file
      * @param format The wanted format of the output
      */
-    public void export(Database database, File output, String format) {
+    public void export(Database database, File output, Exportable format) {
         try {
-            ExportFactory.chooseExport(format).export(database, output);
+            format.export(database, output);
             logger.info("The file was successfully created under " + output.getPath());
         } catch (FileNotFoundException e) {
             logger.error("The file can not created under " + output.getPath());

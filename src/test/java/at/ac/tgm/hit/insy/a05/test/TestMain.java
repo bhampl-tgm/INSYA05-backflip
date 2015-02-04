@@ -1,6 +1,7 @@
 package at.ac.tgm.hit.insy.a05.test;
 
 import at.ac.tgm.hit.insy.a05.Main;
+import at.ac.tgm.hit.insy.a05.output.ExportFactory;
 import at.ac.tgm.hit.insy.a05.structure.Database;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -81,7 +82,7 @@ public class TestMain {
 
     @Test
     public void testExpoting() {
-        this.main.export(new Database("test"), new File(TESTPATH + "test.html"), "rm");
+        this.main.export(new Database("test"), new File(TESTPATH + "test.html"), ExportFactory.chooseExport("rm"));
         assertTrue(testAppender.getLog().get(0).getMessage().toString().contains("success"));
     }
 
@@ -111,6 +112,6 @@ public class TestMain {
                 assertTrue(TestMain.testAppender.getLog().get(0).getMessage().toString().contains("not created"));
             }
         });
-        this.main.export(new Database("test"), new File(""), "rm");
+        this.main.export(new Database("test"), new File(""), ExportFactory.chooseExport("rm"));
     }
 }

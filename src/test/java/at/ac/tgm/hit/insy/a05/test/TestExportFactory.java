@@ -35,8 +35,8 @@ public class TestExportFactory {
         assertTrue(ExportFactory.chooseExport("EeR") instanceof ExportEERDotfile);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testNonAvailableFormat() {
-        assertTrue(ExportFactory.chooseExport("else") == null);
+        ExportFactory.chooseExport("else");
     }
 }

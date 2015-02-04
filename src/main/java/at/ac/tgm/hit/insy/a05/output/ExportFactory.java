@@ -12,13 +12,15 @@ public class ExportFactory {
      *
      * @param format the required name of the format
      * @return an exportable Object depending on the format
+     *
+     * @throws java.lang.IllegalArgumentException When the given format is not available
      */
-    public static Exportable chooseExport(String format) {
+    public static Exportable chooseExport(String format) throws IllegalArgumentException{
         if (format.equalsIgnoreCase("EER"))
             return new ExportEERDotfile();
         else if(format.equalsIgnoreCase("RM"))
             return new ExportRMHTML();
-        return null;
+        throw new IllegalArgumentException("The format " + format + " is not supported");
     }
 
 }

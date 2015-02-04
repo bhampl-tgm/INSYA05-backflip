@@ -1,6 +1,8 @@
 package at.ac.tgm.hit.insy.a05.test;
 
 import at.ac.tgm.hit.insy.a05.input.CLI;
+import at.ac.tgm.hit.insy.a05.output.ExportEERDotfile;
+import at.ac.tgm.hit.insy.a05.output.ExportRMHTML;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,13 +47,13 @@ public class TestCLI {
     @Test
     public void testFormatRM() {
         this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-d", "backflip", "-o", "test.html", "-f", "rm", "-p", "blabla"});
-        assertEquals("rm", this.cli.getFormat());
+        assertTrue(this.cli.getFormat() instanceof ExportRMHTML);
     }
 
     @Test
     public void testFormatEER() {
         this.cli.parseArgs(new String[]{"-h", "127.0.0.1", "-u", "insy4", "-d", "backflip", "-o", "test.dot", "-f", "eer", "-p", "blabla"});
-        assertEquals("eer", this.cli.getFormat());
+        assertTrue(this.cli.getFormat() instanceof ExportEERDotfile);
     }
 
     @Test

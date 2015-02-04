@@ -1,6 +1,8 @@
 package at.ac.tgm.hit.insy.a05.input;
 
 
+import at.ac.tgm.hit.insy.a05.output.ExportFactory;
+import at.ac.tgm.hit.insy.a05.output.Exportable;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -35,6 +37,8 @@ public class CLI {
     @Option(name = "-p", usage = "specify password for login (default: password prompt)")
     private String password;
 
+    private Exportable export;
+
     /**
      * Pars the command line arguments
      *
@@ -48,15 +52,10 @@ public class CLI {
             // pars the args
             parser.parseArgument(args);
 
-            // checks if the order direction is valid
-            if (!this.format.equalsIgnoreCase("EER") && !this.format.equalsIgnoreCase("RM"))
-                throw new CmdLineException(parser, Messages.ILLEGAL_OPERAND, this.format);
-            if ((this.file == null) && this.format.equalsIgnoreCase("EER")) {
-                this.file = new File("eer.dot");
-            } else if ((this.file == null) && this.format.equalsIgnoreCase("RM")) {
-                this.file = new File("rm.html");
-            }
-        } catch (CmdLineException e) {
+            this.export = ExportFactory.chooseExport(this.format);
+            if (this.file == null)
+                this.file = new File(export.getDefaultFileName());
+        } catch (CmdLineException | IllegalArgumentException e) {
             // if something went wrong the help is printed
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -131,7 +130,7 @@ public class CLI {
      *
      * @return Value for property 'format'.
      */
-    public String getFormat() {
-        return format;
+    public Exportable getFormat() {
+        return export;
     }
 }
