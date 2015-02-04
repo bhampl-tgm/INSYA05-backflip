@@ -1,4 +1,4 @@
 /**
- * Created by Martin Kritzl on 21.01.2015.
+ * Contains all of the classes for connecting to a Database and print its metadata into files
  */
 package at.ac.tgm.hit.insy.a05;

@@ -46,12 +46,6 @@ public class TestMain {
     }
 
     @Test
-    public void testConnection() {
-        this.main.getConnection("localhost","backflip", "insy4","blabla");
-        assertTrue(testAppender.getLog().size()==0);
-    }
-
-    @Test
     public void testParsingFails() {
         exit.expectSystemExitWithStatus(1);
         exit.checkAssertionAfterwards(new Assertion() {
@@ -81,7 +75,7 @@ public class TestMain {
     }
 
     @Test
-    public void testExpoting() {
+    public void testExporting() {
         this.main.export(new Database("test"), new File(TESTPATH + "test.html"), ExportFactory.chooseExport("rm"));
         assertTrue(testAppender.getLog().get(0).getMessage().toString().contains("success"));
     }
