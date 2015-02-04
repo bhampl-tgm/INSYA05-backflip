@@ -202,31 +202,31 @@ public class TestDatabaseMapper {
     }
 
     @Test
-    public void test1() {
+    public void compareTheSameAttribute() {
         Attribute temp = new Attribute("newAttribute", new Table("temp"));
         assertTrue(temp.equals(temp));
     }
 
     @Test
-    public void test2() {
+    public void compareTwoDifferentAttributes() {
         Attribute temp = new Attribute("newAttribute", new Table("temp"));
         assertFalse(temp.equals(this.database.getTable("flights").getAttribute("plane")));
     }
 
     @Test
-    public void test3() {
+    public void compareAttributeWithNull() {
         Attribute temp = new Attribute("newAttribute", new Table("temp"));
         assertFalse(temp.equals(null));
     }
 
     @Test
-    public void test4() {
+    public void CompareAttributeWithAnotherInstance() {
         Attribute temp = new Attribute("newAttribute", new Table("temp"));
         assertFalse(temp.equals(new Table("newTable")));
     }
 
     @Test
-    public void test5() {
+    public void CompareSameAttributeWithDifferentTable() {
         Attribute temp = new Attribute("newAttribute", new Table("temp"));
         assertFalse(temp.equals(new Attribute("otherAttribute",new Table("temp"))));
     }

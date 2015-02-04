@@ -20,7 +20,7 @@ public class ExportFactory {
             return new ExportEERDotfile();
         else if(format.equalsIgnoreCase("RM"))
             return new ExportRMHTML();
-        throw new IllegalArgumentException("The format " + format + " is not supported");
+        throw new IllegalArgumentException("The format \"" + format + "\" is not supported");
     }
 
 }
