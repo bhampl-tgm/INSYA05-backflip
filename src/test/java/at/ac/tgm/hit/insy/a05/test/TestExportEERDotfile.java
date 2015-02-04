@@ -8,15 +8,20 @@ import at.ac.tgm.hit.insy.a05.structure.Table;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.File;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
  * ExportEERDotfile Tester.
  *
  * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
- * @version 0.1
+ * @version 1.0
  * @see at.ac.tgm.hit.insy.a05.output.ExportEERDotfile
  */
 public class TestExportEERDotfile {
@@ -212,5 +217,11 @@ public class TestExportEERDotfile {
         }
         line = file.readLine();
         assertTrue(line.contains("flights" + "airline" + "airlines" + "id" + TestExportEERDotfile.startCardinality + "1" + TestExportEERDotfile.endCardinality));
+    }
+
+    @Test
+    public void testGetDefaultFileName() {
+        ExportEERDotfile eer = new ExportEERDotfile();
+        assertEquals("eer.dot",eer.getDefaultFileName());
     }
 } 

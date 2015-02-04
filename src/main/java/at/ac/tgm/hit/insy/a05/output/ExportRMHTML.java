@@ -13,7 +13,7 @@ import java.io.PrintWriter;
  * Exports a Database to a file in HTML format
  *
  * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
- * @version 0.1
+ * @version 1.0
  * @see at.ac.tgm.hit.insy.a05.output.Exportable
  */
 public class ExportRMHTML implements Exportable {

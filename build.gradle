@@ -15,7 +15,7 @@ def runPassword = 'blabla'
 // Other setting
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-version = '0.1'
+version = '1.0'
 
 // Repositories
 repositories {

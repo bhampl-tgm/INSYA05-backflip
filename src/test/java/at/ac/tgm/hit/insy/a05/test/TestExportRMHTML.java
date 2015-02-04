@@ -8,13 +8,22 @@ import at.ac.tgm.hit.insy.a05.structure.Table;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.File;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 
 /**
- * Created by Martin Kritzl on 24.01.2015.
+ * ExportRMHTLM Tester.
+ *
+ * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
+ * @version 1.0
+ * @see at.ac.tgm.hit.insy.a05.output.ExportRMHTML
  */
 public class TestExportRMHTML {
 
@@ -176,6 +185,12 @@ public class TestExportRMHTML {
         }
         line = file.readLine();
         assertTrue(line.contains(endAttribute + "country" + notnull));
+    }
+
+    @Test
+    public void testGetDefaultFileName() {
+        ExportRMHTML eer = new ExportRMHTML();
+        assertEquals("rm.html", eer.getDefaultFileName());
     }
 
 }

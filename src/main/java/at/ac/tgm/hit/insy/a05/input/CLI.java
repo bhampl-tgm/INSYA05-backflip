@@ -1,21 +1,23 @@
 package at.ac.tgm.hit.insy.a05.input;
 
-
 import at.ac.tgm.hit.insy.a05.output.ExportFactory;
 import at.ac.tgm.hit.insy.a05.output.Exportable;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.Messages;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ByteArrayOutputStream;
 
 
 /**
  * Pars the command line ars
  *
  * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
- * @version 0.1
+ * @version 1.0
  */
 public class CLI {
 
@@ -44,7 +46,7 @@ public class CLI {
      *
      * @param args the command line arguments
      */
-    public void parseArgs(String[] args) throws IllegalArgumentException{
+    public void parseArgs(String[] args) throws IllegalArgumentException {
         // initialize a new CmdLineParser with CLI
         CmdLineParser parser = new CmdLineParser(this);
 
@@ -64,7 +66,7 @@ public class CLI {
         }
 
         // ask Password with Eclipse/IntelliJ workaround
-        if (this.password==null)
+        if (this.password == null)
             if (System.console() == null) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         System.in));
