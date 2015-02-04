@@ -9,8 +9,8 @@ import java.io.FileNotFoundException;
 /**
  * Interface for Export a database
  *
- * @version 0.1
  * @author Burkhard Hampl [burkhard.hampl@student.tgm.ac.at]
+ * @version 0.1
  */
 public interface Exportable extends Closeable {
 
@@ -18,9 +18,16 @@ public interface Exportable extends Closeable {
      * Export database to file
      *
      * @param database database
-     * @param file file
+     * @param file     file
      * @throws java.io.FileNotFoundException if the given file is not found
      */
     public void export(Database database, File file) throws FileNotFoundException;
 
+
+    /**
+     * Get default file name of Exportable
+     *
+     * @return default file name
+     */
+    public String getDefaultFileName();
 }

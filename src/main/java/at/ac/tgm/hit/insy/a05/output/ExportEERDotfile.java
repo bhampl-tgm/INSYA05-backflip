@@ -20,45 +20,27 @@ import java.util.List;
  */
 public class ExportEERDotfile implements Exportable {
 
-    private PrintWriter output;
-
-    private Database database;
-
-    private List<Attribute> references;
-
     private final static String startER = "graph ER {";
-
     private final static String endER = "}";
-
     private final static String startTables = "\tnode [shape=box]; ";
-
     private final static String startAttributes = "\tnode [shape=ellipse];";
-
     private final static String startNodeLablePK = "\t\t{node [label=<<u>";
-
     private final static String endLablePK = "</u>>] ";
-
     private final static String startNodeLableNormal = "\t\t{node [label=\"";
-
     private final static String endLableNormal = "\"] ";
-
     private final static String endNode = "}";
-
     private final static String endAttribute = "; ";
-
     private final static String connectionSeperator = " -- ";
-
     private final static String startAttributesToTable = "\t";
-
     private final static String startReference = "\tnode [shape=diamond];";
-
     private final static String startConnection = "\t";
-
     private final static String startCardinality = " [label=\"";
-
     private final static String endCardinality = "\"]";
-    // ,len=1.00
     private static final String notNull = "&lt;NOT NULL&gt;";
+    private static final String defaultFileName = "eer.dot";
+    private PrintWriter output;
+    private Database database;
+    private List<Attribute> references;
 
     @Override
     public void export(Database database, File file) throws FileNotFoundException {
@@ -71,12 +53,16 @@ public class ExportEERDotfile implements Exportable {
         this.printAttributes();
         this.printReferences();
 
-        //TODO finish dot
         this.printAttributesToTables();
         this.printConnections();
 
         this.output.println(ExportEERDotfile.endER);
         this.close();
+    }
+
+    @Override
+    public String getDefaultFileName() {
+        return ExportEERDotfile.defaultFileName;
     }
 
     /**
@@ -185,7 +171,6 @@ public class ExportEERDotfile implements Exportable {
      * Prints all connections between references
      */
     private void printConnections() {
-        //TODO add Cardinality
         for (Attribute attribute : this.references) {
             this.output.print(ExportEERDotfile.startConnection);
             this.output.print(attribute.getTable().getName());
@@ -197,12 +182,8 @@ public class ExportEERDotfile implements Exportable {
             this.output.print(ExportEERDotfile.startCardinality);
 
             // prints Cardinality
-            //TODO Cardinality: HERE!
             char refCardinality;
-            if (false) {
-                output.print("n");
-                refCardinality = 'm';
-            } else if (attribute.isUnique()) {
+            if (attribute.isUnique()) {
                 output.print("1");
                 refCardinality = '1';
             } else {
